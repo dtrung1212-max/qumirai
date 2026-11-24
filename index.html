@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="QUMIRAI"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script>try{if(window.top===window&&/^https?:$/.test(location.protocol)){const h=document.head;[['manifest','manifest.webmanifest'],['apple-touch-icon','apple-touch-icon.png'],['icon','icon-192.png']].forEach(([r,u])=>{const l=document.createElement('link');l.rel=r;l.href=u;h.appendChild(l)})}}catch(e){}</script>
 <meta name="author" content="Phát triển bởi thầy Phan Đình Trung – THPT Chu Văn An, phường Bảo An, tỉnh Khánh Hòa">
-<meta name="version" content="1.30">
+<meta name="version" content="1.31">
 <meta name="description" content="QUMIRAI – AI Exam Scanner. Quét thông minh – Chấm chính xác – Phân tích toàn diện.">
 <meta name="copyright" content="© 2026 QUMIRAI — Phát triển bởi thầy Phan Đình Trung, Trường THPT Chu Văn An, phường Bảo An, tỉnh Khánh Hòa">
 <title>QUMIRAI – AI Exam Scanner</title>
@@ -196,6 +196,9 @@ button.ready{cursor:pointer;border:0}
 .qrcam{position:relative;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:1/1;max-height:60vh;margin:0 auto}.qrcam video{width:100%;height:100%;object-fit:cover;display:block}.qrcam i{position:absolute;inset:16%;border:3px solid #fff;border-radius:16px;box-shadow:0 0 0 999px #0006}
 .sychip{display:flex;align-items:center;gap:6px;margin:6px auto 0;padding:4px 12px;border-radius:99px;background:var(--card);border:1px solid var(--line);font-size:12.5px;color:var(--ink)}.syb{font-size:15px}.syb.ok{color:#16a34a}.syb.warn{color:#d97706}.syb.spin{display:inline-block;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 .syrow{display:flex;align-items:center;gap:10px;background:var(--soft);border-radius:12px;padding:8px 12px}.fixbox{display:block;font-size:13.5px;background:light-dark(#eef4ff,#14213b);border-radius:10px;padding:8px 10px;margin:6px 0}.fixbox input{width:18px;height:18px;vertical-align:-3px;margin-right:4px}
+#sShot,#sAuto{display:none!important}
+.s-shot{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(270px + env(safe-area-inset-bottom));max-height:42vh;max-width:70vw;border-radius:10px;border:3px solid #fff;box-shadow:0 8px 24px #0009;background:#fff;animation:pop .25s ease-out;cursor:zoom-in}
+.s-full{position:absolute;inset:0;z-index:30;background:#000e;display:flex;align-items:center;justify-content:center;padding:10px}.s-full img{max-width:100%;max-height:100%;border-radius:6px;background:#fff}.s-full button{position:absolute;top:calc(14px + env(safe-area-inset-top));right:14px;width:44px;height:44px;border-radius:99px;background:#fff;color:#000;font-size:20px}
 /* scanner */
 .scan{position:fixed;inset:0;background:#000;z-index:50;color:#fff;overflow:hidden}
 .scan video,.scan canvas#ovl{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
@@ -298,8 +301,8 @@ const r2=n=>Math.round((+n||0)*100)/100;
 const fmt=n=>r2(n).toLocaleString('vi-VN',{maximumFractionDigits:2});
 const uid=()=>Math.random().toString(36).slice(2,10);
 const toast=(m,ms=2200)=>{const t=$('#toast');t.innerHTML=`<div class="toast">${esc(m)}</div>`;clearTimeout(toast.t);toast.t=setTimeout(()=>t.innerHTML='',ms)};
-const APP='QUMIRAI',APP_FULL='QUMIRAI – AI Exam Scanner',SLOGAN='Quét thông minh – Chấm chính xác – Phân tích toàn diện',VER='1.30',VER_DATE='24/11/2026',
- CHANGES=[['1.30','Đọc phiếu chuẩn hơn: bù bóng đổ/ánh sáng từng ô, nhận ô tô bút chì nhạt; 4 ô định vị to gấp đôi; đủ 4 ô giữ ~1 giây là tự chụp ảnh nét và chấm'],['1.29','Quét: 4 ô định vị trong suốt, 4 chấm đen vào đủ 4 ô là tự chụp và chấm; không phủ màu lên bài'],['1.28','Định vị 4 góc khi quét: 4 ô ngắm trên màn hình, ô chuyển xanh khi khớp; nhận diện 4 góc chắc hơn (đối chiếu 22 ô định vị phụ), không nhầm khi nền có giấy tờ khác'],['1.27','Gắn sẵn Google Client ID: bấm Kết nối Google Drive là đồng bộ được'],['1.26','Đồng bộ máy tính ↔ điện thoại qua Google Drive; quét QR đáp án bằng camera, nhận mã QR TNMaker và file Word'],['1.25','Nhập DS học sinh theo mẫu Sở (nhiều sheet/lớp, trùng SBD giữa các lớp); ghi điểm vào đúng cột KTTX/GKI/CKI theo tên kỳ; file mẫu mới'],['1.24','Trang kỳ kiểm tra gọn: chỉ tên kỳ, nút Quét nổi bật, 6 ô nhỏ; bỏ Tạo đề thi'],['1.23','Quản lý kỳ kiểm tra: mỗi kỳ có trang 8 chức năng; lưu file đề; sửa bài làm; chấm lại / đọc lại ảnh phiếu; sửa học sinh'],['1.22','Danh sách học sinh theo lớp (bấm lớp để xem); tạo kỳ thi chọn lớp chấm bằng ô mũi tên'],['1.21','Xoá hàng loạt: mã đề, bài đã chấm, ảnh phiếu, danh sách học sinh, kỳ thi, tài khoản đã cấp'],['1.20','Đáp án Excel theo mẫu bảng dọc: cột Phần, cột Câu\\Mã Đề, mỗi mã đề một cột; file mẫu xuất cùng dạng'],['1.19','Tài khoản: đăng nhập bằng mã kích hoạt có hạn dùng; quản trị viên cấp/gia hạn tài khoản; hết hạn khoá app'],['1.18','Cài được như app: biểu tượng riêng, mở toàn màn hình, dùng khi mất mạng; nút Cài app'],['1.17','Camera: xem trực tiếp, nút chụp – chụp lại – dùng ảnh, báo lỗi quyền/camera bận/không hỗ trợ; slogan một dòng'],['1.16','Đổi tên thành QUMIRAI – AI Exam Scanner, thêm khẩu hiệu'],['1.15','Đổi tên app; ghi số phiên bản, tăng mỗi lần cập nhật'],['1.14','Chấm theo thư mục ảnh/PDF; cập nhật thư mục chỉ chấm file mới'],['1.13','Bấm quét là mở camera ngay; cảnh báo SBD tô sai, trùng, ngoài danh sách'],['1.12','Xuất điểm theo danh sách học sinh; ảnh phiếu khoanh màu có ghi điểm'],['1.11','Mã đề nhập ở bước đáp án; nút Lỗi cộng điểm câu lỗi đề'],['1.10','Nhập danh sách học sinh từ Excel, file mẫu, mã QR'],['1.9','Thông tin tác giả'],['1.8','Nhập đáp án từ Excel, file mẫu, mã QR'],['1.7','Giao diện như mẫu, thao tác cô đọng'],['1.6','Thử với phiếu mẫu; tạo kỳ thi 3 bước'],['1.5','Hướng dẫn sử dụng'],['1.4','Chấm theo 2 mẫu phiếu BGD 2025: 3 phần, điểm từng phần'],['1.3','Giao diện gọn trên điện thoại'],['1.0','Bản đầu tiên']],
+const APP='QUMIRAI',APP_FULL='QUMIRAI – AI Exam Scanner',SLOGAN='Quét thông minh – Chấm chính xác – Phân tích toàn diện',VER='1.31',VER_DATE='24/11/2026',
+ CHANGES=[['1.31','Quét nhanh hơn nhiều: bỏ nút chụp và nút Tự chấm — 4 chấm đen vào 4 ô là tự chấm; hiện ảnh phiếu khoanh đúng/sai ngay sau khi chấm, chạm để phóng to'],['1.30','Đọc phiếu chuẩn hơn: bù bóng đổ/ánh sáng từng ô, nhận ô tô bút chì nhạt; 4 ô định vị to gấp đôi; đủ 4 ô giữ ~1 giây là tự chụp ảnh nét và chấm'],['1.29','Quét: 4 ô định vị trong suốt, 4 chấm đen vào đủ 4 ô là tự chụp và chấm; không phủ màu lên bài'],['1.28','Định vị 4 góc khi quét: 4 ô ngắm trên màn hình, ô chuyển xanh khi khớp; nhận diện 4 góc chắc hơn (đối chiếu 22 ô định vị phụ), không nhầm khi nền có giấy tờ khác'],['1.27','Gắn sẵn Google Client ID: bấm Kết nối Google Drive là đồng bộ được'],['1.26','Đồng bộ máy tính ↔ điện thoại qua Google Drive; quét QR đáp án bằng camera, nhận mã QR TNMaker và file Word'],['1.25','Nhập DS học sinh theo mẫu Sở (nhiều sheet/lớp, trùng SBD giữa các lớp); ghi điểm vào đúng cột KTTX/GKI/CKI theo tên kỳ; file mẫu mới'],['1.24','Trang kỳ kiểm tra gọn: chỉ tên kỳ, nút Quét nổi bật, 6 ô nhỏ; bỏ Tạo đề thi'],['1.23','Quản lý kỳ kiểm tra: mỗi kỳ có trang 8 chức năng; lưu file đề; sửa bài làm; chấm lại / đọc lại ảnh phiếu; sửa học sinh'],['1.22','Danh sách học sinh theo lớp (bấm lớp để xem); tạo kỳ thi chọn lớp chấm bằng ô mũi tên'],['1.21','Xoá hàng loạt: mã đề, bài đã chấm, ảnh phiếu, danh sách học sinh, kỳ thi, tài khoản đã cấp'],['1.20','Đáp án Excel theo mẫu bảng dọc: cột Phần, cột Câu\\Mã Đề, mỗi mã đề một cột; file mẫu xuất cùng dạng'],['1.19','Tài khoản: đăng nhập bằng mã kích hoạt có hạn dùng; quản trị viên cấp/gia hạn tài khoản; hết hạn khoá app'],['1.18','Cài được như app: biểu tượng riêng, mở toàn màn hình, dùng khi mất mạng; nút Cài app'],['1.17','Camera: xem trực tiếp, nút chụp – chụp lại – dùng ảnh, báo lỗi quyền/camera bận/không hỗ trợ; slogan một dòng'],['1.16','Đổi tên thành QUMIRAI – AI Exam Scanner, thêm khẩu hiệu'],['1.15','Đổi tên app; ghi số phiên bản, tăng mỗi lần cập nhật'],['1.14','Chấm theo thư mục ảnh/PDF; cập nhật thư mục chỉ chấm file mới'],['1.13','Bấm quét là mở camera ngay; cảnh báo SBD tô sai, trùng, ngoài danh sách'],['1.12','Xuất điểm theo danh sách học sinh; ảnh phiếu khoanh màu có ghi điểm'],['1.11','Mã đề nhập ở bước đáp án; nút Lỗi cộng điểm câu lỗi đề'],['1.10','Nhập danh sách học sinh từ Excel, file mẫu, mã QR'],['1.9','Thông tin tác giả'],['1.8','Nhập đáp án từ Excel, file mẫu, mã QR'],['1.7','Giao diện như mẫu, thao tác cô đọng'],['1.6','Thử với phiếu mẫu; tạo kỳ thi 3 bước'],['1.5','Hướng dẫn sử dụng'],['1.4','Chấm theo 2 mẫu phiếu BGD 2025: 3 phần, điểm từng phần'],['1.3','Giao diện gọn trên điện thoại'],['1.0','Bản đầu tiên']],
  COPY=`© 2026 ${APP_FULL} v${VER} — Phát triển bởi thầy Phan Đình Trung, Trường THPT Chu Văn An, phường Bảo An, tỉnh Khánh Hòa`,COPY_S=`${APP} v${VER} · Phát triển bởi thầy Phan Đình Trung · THPT Chu Văn An`,LET='ABCD',TF=v=>v==='T'?'Đ':v==='F'?'S':v==='*'?'×':'–';
 
 /* ---------- icons ---------- */
@@ -436,7 +439,7 @@ function homog(src,dst){const A=[],B=[];for(let i=0;i<4;i++){const[x,y]=src[i],[
 const mp=(h,x,y)=>{const z=h[6]*x+h[7]*y+h[8];return[(h[0]*x+h[1]*y+h[2])/z,(h[3]*x+h[4]*y+h[5])/z]};
 function sampleC(g,w,h,H,cx,cy,r){let s=0,n=0;const st=r/3;for(let dy=-r;dy<=r+.01;dy+=st)for(let dx=-r;dx<=r+.01;dx+=st){if(dx*dx+dy*dy>r*r+.01)continue;const[u,v]=mp(H,cx+dx,cy+dy),x=u|0,y=v|0;if(x<0||y<0||x>=w||y>=h)continue;s+=g[y*w+x];n++}return n?s/n:255}
 function sampleR(g,w,h,H,cx,cy,rw,rh){let s=0,n=0;for(let j=-2;j<=2;j++)for(let i=-3;i<=3;i++){const[u,v]=mp(H,cx+i*rw/7,cy+j*rh/5),x=u|0,y=v|0;if(x<0||y<0||x>=w||y>=h)continue;s+=g[y*w+x];n++}return n?s/n:255}
-function analyze(cv,tpl,hint){
+function analyze(cv,tpl,hint,opt){
  const T=TP[tpl]||TP.bgd3,w=cv.width,h=cv.height,ctx=cv.getContext('2d',{willReadFrequently:true});
  const g=gray(ctx.getImageData(0,0,w,h).data,w*h);
  let F=findMarkers(blobs(binarize(g,w,h),w,h),w,h,g,hint);
@@ -447,6 +450,7 @@ function analyze(cv,tpl,hint){
  const sc=(white-sampleR(g,w,h,H,...T.mark,48,48))/den,so=(white-sampleR(g,w,h,H,...T.other,48,48))/den;
  if(white-black<35)return{ok:false,step:1,P,why:'Ảnh quá tối hoặc lóa — chỉnh lại ánh sáng'};
  if(sc<.5)return{ok:false,step:1,P,why:so>.5?'Phiếu không đúng mẫu của kỳ thi (mẫu 3 số / 4 số)':'Chưa xác định được chiều phiếu — giữ phiếu thẳng'};
+ if(opt&&opt.detect)return{ok:true,step:2,P,H,v:F.v};
  return readH(g,w,h,H,black,T,{P,tpl,v:F.v})}
 
 const BGR=[[30,0],[-30,0],[0,28],[0,-28],[22,22],[-22,22],[22,-22],[-22,-22]];
@@ -1420,7 +1424,7 @@ const STEPS=['Mở camera','Nhận diện phiếu','Đọc mã đề & SBD','Nh�
 function initAudio(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();AC.resume&&AC.resume()}catch(e){}}
 function beep(ok){if(!S.settings.sound||!AC)return;try{const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=ok?1046:330;g.gain.setValueAtTime(.18,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+.18);o.connect(g).connect(AC.destination);o.start();o.stop(AC.currentTime+.2)}catch(e){}try{navigator.vibrate&&navigator.vibrate(ok?60:[40,60,40])}catch(e){}}
 function setStep(n,msg){$('#steps').innerHTML=STEPS.map((s,i)=>`<div class="${i<=n?'on':''}">${s}</div>`).join('');if(msg!=null)$('#sMsg').textContent=msg;$('#frame').classList.toggle('fok',n>=1)}
-const autoOn=()=>S.settings.autoScan!==false;
+const autoOn=()=>true;
 function camAllowed(){try{const fp=document.permissionsPolicy||document.featurePolicy;if(fp&&fp.allowsFeature&&!fp.allowsFeature('camera'))return false}catch(x){}return true}
 const CAMERR={
  embed:['Trình xem này chặn camera','Ứng dụng Claude không cho trang bên trong mở camera trực tiếp. Bạn vẫn chụp được bằng nút dưới (mở camera của máy). Muốn xem hình trực tiếp và chụp ngay trong app: mở bản HTML bằng Chrome qua địa chỉ https (xem hướng dẫn).'],
@@ -1469,18 +1473,24 @@ function drawOverlay(r,pc){const o=$('#ovl'),W=o.clientWidth,H=o.clientHeight;if
  const vw=pc.width,vh=pc.height,k=Math.min(W/vw,H/vh),ox=(W-vw*k)/2,oy=(H-vh*k)/2,T=p=>[p[0]*k+ox,p[1]*k+oy];
  x.lineWidth=2.5;x.strokeStyle=r.ok?'#22c55e':'#facc15';r.P.forEach(p=>{const[u,v]=T(p);x.beginPath();x.arc(u,v,9,0,7);x.stroke()})}
 const rkey=r=>[r.sbd,r.made,r.a1,r.a2.join(''),r.a3.join('|')].join('#');
-function loop(){if(!scanOn||mode!=='live'||!stream)return;const v=$('#vid');let wait=autoOn()?140:260;
- if(paused){timer=setTimeout(loop,300);return}
- if(v.readyState>=2&&v.videoWidth){const pc=toCanvas(v,1100),e=ex(),hint=camHint(pc.width,pc.height);let r=analyze(pc,e.tpl,hint);drawOverlay(r,pc);const hits=boxHits(r,hint);$('#sShot').classList.toggle('ready',!!r.ok);
-  if(!autoOn()){setStep(r.ok?1:0,r.ok?'Đã thấy đủ 4 ô định vị — bấm nút tròn để chụp':(r.step===1?r.why:'Đưa 4 chấm đen ở 4 góc phiếu vào 4 ô vuông'))}
-  else if(!r.ok||hits<4){stable=0;holdT=0;if(++miss>8)accepted='';if(r.ok){setStep(0,`Đưa 4 chấm đen vào 4 ô vuông (${hits}/4)`)}else setStep(r.step===1?1:0,r.step===1?r.why:'Đưa 4 chấm đen ở 4 góc phiếu vào 4 ô vuông — app tự chụp')}
-  else{miss=0;const sbdOk=!r.sbd.includes('?'),madeOk=!!e.codes[r.made];
-   if(r.made.includes('?')){stable=0;setStep(1,'Chưa đọc được mã đề — kiểm tra phần tô mã đề')}
-   else{const k=rkey(r);
-    if(k===accepted){setStep(5,'Đã chấm phiếu này — đặt phiếu tiếp theo')}
-    else{const now=performance.now();if(!holdT)holdT=now;const held=(now-holdT)/1000;setStep(held>=1?4:3,`Đủ 4 ô · SBD ${r.sbd} · Mã ${r.made} — giữ yên ${Math.max(0,1-held).toFixed(1).replace('.',',')}s`);
-     if(held>=1){holdT=0;const big=toCanvas(v,2000),bc=toCanvas(big,1700),R2=analyze(bc,e.tpl,camHint(bc.width,bc.height));let src=pc;if(R2.ok&&!R2.made.includes('?')){r=R2;src=bc}const k2=rkey(r);if(k2===accepted){setStep(5,'Đã chấm phiếu này — đặt phiếu tiếp theo');timer=setTimeout(loop,wait);return}accepted=k2;const madeOk=!!e.codes[r.made];if(!madeOk){beep(false);showCard(null,r,`Mã đề ${r.made} chưa có trong kỳ thi`)}else{const res=mkResult(e,{sbd:r.sbd,made:r.made,a1:r.a1,a2:r.a2,a3:r.a3,p3:r.a3pos,src:'camera'});paused=true;commitResult(e,res,rectify(src,r)).then(o=>{paused=false;if(!o){showCard(null,r,'Đã bỏ qua phiếu này');return}sess++;$('#sCount').textContent=sess;beep(true);setStep(5,'Đã lưu — đặt phiếu tiếp theo');showCard(o.res,o.res,o.st==='updated'?'Đã cập nhật điểm':'Đã lưu')})}wait=900}}}}}
+let needClear=false,clearN=0,grading=false;
+function loop(){if(!scanOn||mode!=='live'||!stream)return;const v=$('#vid');let wait=70;
+ if(paused||grading){timer=setTimeout(loop,200);return}
+ if(v.readyState>=2&&v.videoWidth){const pc=toCanvas(v,760),e=ex(),hint=camHint(pc.width,pc.height),r=analyze(pc,e.tpl,hint,{detect:1});drawOverlay(r,pc);const hits=boxHits(r,hint);
+  if(needClear){if(hits<3){if(++clearN>=3)needClear=false}else clearN=0;setStep(5,'Đã chấm — đưa phiếu tiếp theo vào 4 ô');holdT=0}
+  else if(!r.ok||hits<4){holdT=0;setStep(r.step===1?1:0,r.step===1?r.why:hits?`Đưa 4 chấm đen vào 4 ô vuông (${hits}/4)`:'Đưa 4 chấm đen ở 4 góc phiếu vào 4 ô vuông')}
+  else{const now=performance.now();if(!holdT)holdT=now;const held=(now-holdT)/1000;
+   if(held<.6)setStep(2,`Đủ 4 ô — giữ yên ${Math.max(0,.6-held).toFixed(1).replace('.',',')}s`);
+   else{holdT=0;grading=true;setStep(3,'Đang chấm…');setTimeout(()=>autoGrade(v,e).finally(()=>{grading=false;timer=setTimeout(loop,300)}),0);return}}}
  timer=setTimeout(loop,wait)}
+async function autoGrade(v,e){const big=toCanvas(v,1800),hint=camHint(big.width,big.height),r=analyze(big,e.tpl,hint);
+ if(!r.ok){beep(false);setStep(1,r.why);return}
+ needClear=true;clearN=0;
+ if(r.made.includes('?')){beep(false);showCard(null,r,'Chưa đọc được mã đề — kiểm tra phần tô mã đề');return}
+ if(!e.codes[r.made]){beep(false);showCard(null,r,`Mã đề ${r.made} chưa có trong kỳ thi`);return}
+ const res=mkResult(e,{sbd:r.sbd,made:r.made,a1:r.a1,a2:r.a2,a3:r.a3,p3:r.a3pos,src:'camera'}),rect=rectify(big,r);paused=true;
+ try{const o=await commitResult(e,res,rect);if(!o){showCard(null,r,'Đã bỏ qua phiếu này');return}sess++;$('#sCount').textContent=sess;beep(true);setStep(5,'Đã lưu — đưa phiếu tiếp theo vào 4 ô');
+  let url='';try{const m=await markedSheet(e,o.res,rect);url=m.toDataURL('image/jpeg',.82)}catch(x){}showCard(o.res,o.res,o.st==='updated'?'Đã cập nhật điểm':'Đã lưu',url)}finally{paused=false}}
 /* manual capture: Chụp → xem lại → Chụp lại / Dùng ảnh này */
 $('#sShot').onclick=()=>{const v=$('#vid');if(!stream||!v.videoWidth){toast('Camera chưa sẵn sàng');return}initAudio();clearTimeout(timer);
  shotCv=toCanvas(v,2000);{const sc=toCanvas(shotCv,1400);shotR=analyze(sc,ex().tpl,camHint(sc.width,sc.height))}try{v.pause()}catch(x){}
@@ -1495,7 +1505,7 @@ $('#sUse').onclick=async()=>{if(!shotCv)return;$('#sMsg').textContent='Đang ch�
   if(!o){showCard(null,g.r,'Đã bỏ qua phiếu này')}else{LAST.res=o.res;LAST.saved=o.st;sess++;$('#sCount').textContent=sess;beep(true);showCard(o.res,o.res,o.st==='updated'?'Đã cập nhật điểm':'Đã lưu')}
   $('#sRetake').click();$('#sMsg').textContent='Đã lưu — đặt phiếu tiếp theo rồi bấm chụp'}
  finally{$('#sUse').disabled=false}};
-function showCard(res,r,msg){const e=ex(),n=stu(r.sbd)?.name;$('#sCard').innerHTML=`<div class="s-card ${res?'':'err'}"><div class="sc">${res?fmt(res.score):'!'}</div><div class="grow"><b>${esc(n||'SBD '+r.sbd)}</b><div style="font-size:12.5px;color:#5b6b86">SBD ${esc(r.sbd)} · Mã ${esc(r.made)}${res?` · ${[e.n1?'I '+fmt(res.s1):'',e.n2?'II '+fmt(res.s2):'',e.n3?'III '+fmt(res.s3):''].filter(Boolean).join(' · ')}`:''}</div><div style="font-size:13px;font-weight:600;color:${res?'#16a34a':'#e11d48'}">${esc(msg)}</div></div></div>`;clearTimeout(cardT);cardT=setTimeout(()=>$('#sCard').innerHTML='',4500)}
+function showCard(res,r,msg,img){const e=ex(),n=stu(r.sbd)?.name;$('#sCard').innerHTML=`${img?`<img class="s-shot" src="${img}" alt="Phiếu đã chấm" data-big="1">`:''}<div class="s-card ${res?'':'err'}"><div class="sc">${res?fmt(res.score):'!'}</div><div class="grow"><b>${esc(n||'SBD '+r.sbd)}</b><div style="font-size:12.5px;color:#5b6b86">SBD ${esc(r.sbd)} · Mã ${esc(r.made)}${res?` · ${[e.n1?'I '+fmt(res.s1):'',e.n2?'II '+fmt(res.s2):'',e.n3?'III '+fmt(res.s3):''].filter(Boolean).join(' · ')}`:''}</div><div style="font-size:13px;font-weight:600;color:${res?'#16a34a':'#e11d48'}">${esc(msg)}</div></div></div>`;clearTimeout(cardT);cardT=setTimeout(()=>$('#sCard').innerHTML='',img?9000:4500);const im=$('#sCard .s-shot');if(im)im.onclick=()=>{clearTimeout(cardT);const d=document.createElement('div');d.className='s-full';d.innerHTML=`<img src="${img}" alt=""><button aria-label="Đóng">✕</button>`;d.onclick=()=>d.remove();$('#scan').appendChild(d)}}
 async function gradeFile(f){if(!f)return;$('#sMsg').textContent='Đang nhận diện…';$('#fbState').textContent='Đang chấm…';
  try{const c=await imgCanvas(f),e=ex(),g=gradeCanvas(c,'camera');
   if(!g.ok){beep(false);showCard(null,{sbd:'?',made:'?'},g.r.why+' — chụp lại');shotDone(false);return}
