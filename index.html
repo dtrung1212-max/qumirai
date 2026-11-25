@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="QUMIRAI"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script>try{if(window.top===window&&/^https?:$/.test(location.protocol)){const h=document.head;[['manifest','manifest.webmanifest'],['apple-touch-icon','apple-touch-icon.png'],['icon','icon-192.png']].forEach(([r,u])=>{const l=document.createElement('link');l.rel=r;l.href=u;h.appendChild(l)})}}catch(e){}</script>
 <meta name="author" content="Phát triển bởi thầy Phan Đình Trung – THPT Chu Văn An, phường Bảo An, tỉnh Khánh Hòa">
-<meta name="version" content="1.37">
+<meta name="version" content="1.40">
 <meta name="description" content="QUMIRAI – AI Exam Scanner. Quét thông minh – Chấm chính xác – Phân tích toàn diện.">
 <meta name="copyright" content="© 2026 QUMIRAI — Phát triển bởi thầy Phan Đình Trung, Trường THPT Chu Văn An, phường Bảo An, tỉnh Khánh Hòa">
 <title>QUMIRAI – AI Exam Scanner</title>
@@ -231,6 +231,12 @@ button.ready{cursor:pointer;border:0}
  .modal{align-items:center!important;padding-left:228px}.modal>div{max-width:620px;border-radius:22px!important}
  .s-shot{max-width:40vw}
 }
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:8px}.hdr-right .inst,.hdr-right .gear{margin-left:0}.sub1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.loginlink{background:#ffffff26;color:#fff;border-radius:99px;padding:6px 14px;font-size:13.5px;font-weight:700}
+.gbar{position:sticky;top:0;z-index:9;background:linear-gradient(90deg,#f59e0b,#d97706);color:#fff;font-size:12.5px;text-align:center;padding:5px 10px;display:flex;align-items:center;justify-content:center;gap:8px}.gbar b{font-size:13px}.gbar button{background:#ffffff26;color:#fff;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:700}
+.lk-ic{font-size:40px;text-align:center;margin:2px 0}.lkx{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:99px;background:var(--soft);font-size:16px}
+.cfgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.adacct{border:1px solid var(--line);border-radius:12px;padding:8px;margin-top:8px}.adhead{display:flex;align-items:center;gap:8px;margin-bottom:4px}.adhead .btn{margin-left:auto}
+.addev{display:flex;gap:8px;align-items:center;padding:6px 0;border-top:1px dashed var(--line)}.addev .grow{min-width:0}.adst{font-size:11.5px;font-weight:700;border-radius:99px;padding:1px 8px}.adbtn{display:flex;gap:4px;flex:none}.btn.sm{min-height:30px;padding:0 10px;font-size:12.5px}
 /* scanner */
 .scan{position:fixed;inset:0;background:#000;z-index:50;color:#fff;overflow:hidden}
 .scan video,.scan canvas#ovl{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
@@ -270,7 +276,7 @@ button.ready{cursor:pointer;border:0}
 </style>
 </head>
 <body>
-<div id="app"><div id="view"></div></div>
+<div id="app"><div id="gbar" class="gbar" hidden></div><div id="view"></div></div>
 <nav class="tabs" id="tabs"><div>
  <button data-go="home" id="tb-home"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2.5 11h2.7v9.5h5.3v-6h3v6h5.3V11h2.7z"/></svg>Trang chủ</button>
  <button data-go="history" id="tb-history"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>Lịch sử</button>
@@ -314,7 +320,7 @@ button.ready{cursor:pointer;border:0}
  <div class="lk">
   <div class="lk-logo"><svg width="46" height="46" viewBox="0 0 42 42"><rect x="5" y="6" width="28" height="31" rx="4" fill="#e8f0ff" stroke="#1565e8" stroke-width="2.4"/><path d="M10 15h12M10 21h9M10 27h12" stroke="#1565e8" stroke-width="2.4" stroke-linecap="round"/><path d="m17 19 7 7L39 9" stroke="#1565e8" stroke-width="4.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
   <h1>QUMIR<b>AI</b></h1><p class="lk-sub">AI Exam Scanner</p>
-  <div class="lk-card"><h2 id="lkTitle">Đăng nhập</h2><p id="lkMsg" class="lk-msg">Nhập tên đăng nhập và mã kích hoạt do quản trị viên cấp.</p>
+  <div class="lk-card" id="lkCard"><h2 id="lkTitle">Đăng nhập</h2><p id="lkMsg" class="lk-msg">Nhập tên đăng nhập và mã kích hoạt do quản trị viên cấp.</p>
    <label class="f">Tên đăng nhập<input id="lkUser" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="VD: nguyenvana"></label>
    <label class="f">Mã kích hoạt<textarea id="lkCode" class="in" rows="3" spellcheck="false" autocapitalize="none" placeholder="Dán mã kích hoạt (chuỗi dài có dấu chấm ở giữa)"></textarea></label>
    <button class="btn wide" id="lkGo">Đăng nhập</button>
@@ -335,8 +341,8 @@ const r2=n=>Math.round((+n||0)*100)/100;
 const fmt=n=>r2(n).toLocaleString('vi-VN',{maximumFractionDigits:2});
 const uid=()=>Math.random().toString(36).slice(2,10);
 const toast=(m,ms=2200)=>{const t=$('#toast');t.innerHTML=`<div class="toast">${esc(m)}</div>`;clearTimeout(toast.t);toast.t=setTimeout(()=>t.innerHTML='',ms)};
-const APP='QUMIRAI',APP_FULL='QUMIRAI – AI Exam Scanner',SLOGAN='Quét thông minh – Chấm chính xác – Phân tích toàn diện',VER='1.37',VER_DATE='24/11/2026',
- CHANGES=[['1.37','Chuyển Xoá tất cả mã đề vào hộp Chọn mã (có Chọn tất cả); dòng tác giả trang chủ: GV Phan Đình Trung in đậm, kèm trường và tỉnh'],['1.36','Sửa lỗi trang trắng trên máy tính khi bật đồng bộ; giao diện máy tính riêng (menu bên trái, bố cục rộng); hướng dẫn 5 bước bằng hình; chọn lớp chấm bằng ô Học sinh; phối màu mới'],['1.35','Xoá mã đề ngay ở Nhập đáp án (mã đang xem, chọn nhiều mã, tất cả); chọn lại lớp chấm trong trang kỳ kiểm tra; trang chủ: Mẫu phiếu TN thay Nhập đáp án'],['1.34','Bảng điểm gọn đẹp (thẻ từng học sinh, điểm tô màu); bỏ danh sách chưa có bài; ảnh phiếu: câu không làm khung trắng, SBD và mã đề khoanh xanh dương'],['1.33','Xem kết quả: chạm học sinh hiện ảnh phiếu khoanh xanh/đỏ/vàng; khi quét báo trùng SBD, bỏ trống, tô nhiều ô với 3 lựa chọn Sửa · Chấm lại · Giữ'],['1.32','Hướng dẫn: viết lại Quy trình chấm bằng camera'],['1.31','Quét nhanh hơn nhiều: bỏ nút chụp và nút Tự chấm — 4 chấm đen vào 4 ô là tự chấm; hiện ảnh phiếu khoanh đúng/sai ngay sau khi chấm, chạm để phóng to'],['1.30','Đọc phiếu chuẩn hơn: bù bóng đổ/ánh sáng từng ô, nhận ô tô bút chì nhạt; 4 ô định vị to gấp đôi; đủ 4 ô giữ ~1 giây là tự chụp ảnh nét và chấm'],['1.29','Quét: 4 ô định vị trong suốt, 4 chấm đen vào đủ 4 ô là tự chụp và chấm; không phủ màu lên bài'],['1.28','Định vị 4 góc khi quét: 4 ô ngắm trên màn hình, ô chuyển xanh khi khớp; nhận diện 4 góc chắc hơn (đối chiếu 22 ô định vị phụ), không nhầm khi nền có giấy tờ khác'],['1.27','Gắn sẵn Google Client ID: bấm Kết nối Google Drive là đồng bộ được'],['1.26','Đồng bộ máy tính ↔ điện thoại qua Google Drive; quét QR đáp án bằng camera, nhận mã QR TNMaker và file Word'],['1.25','Nhập DS học sinh theo mẫu Sở (nhiều sheet/lớp, trùng SBD giữa các lớp); ghi điểm vào đúng cột KTTX/GKI/CKI theo tên kỳ; file mẫu mới'],['1.24','Trang kỳ kiểm tra gọn: chỉ tên kỳ, nút Quét nổi bật, 6 ô nhỏ; bỏ Tạo đề thi'],['1.23','Quản lý kỳ kiểm tra: mỗi kỳ có trang 8 chức năng; lưu file đề; sửa bài làm; chấm lại / đọc lại ảnh phiếu; sửa học sinh'],['1.22','Danh sách học sinh theo lớp (bấm lớp để xem); tạo kỳ thi chọn lớp chấm bằng ô mũi tên'],['1.21','Xoá hàng loạt: mã đề, bài đã chấm, ảnh phiếu, danh sách học sinh, kỳ thi, tài khoản đã cấp'],['1.20','Đáp án Excel theo mẫu bảng dọc: cột Phần, cột Câu\\Mã Đề, mỗi mã đề một cột; file mẫu xuất cùng dạng'],['1.19','Tài khoản: đăng nhập bằng mã kích hoạt có hạn dùng; quản trị viên cấp/gia hạn tài khoản; hết hạn khoá app'],['1.18','Cài được như app: biểu tượng riêng, mở toàn màn hình, dùng khi mất mạng; nút Cài app'],['1.17','Camera: xem trực tiếp, nút chụp – chụp lại – dùng ảnh, báo lỗi quyền/camera bận/không hỗ trợ; slogan một dòng'],['1.16','Đổi tên thành QUMIRAI – AI Exam Scanner, thêm khẩu hiệu'],['1.15','Đổi tên app; ghi số phiên bản, tăng mỗi lần cập nhật'],['1.14','Chấm theo thư mục ảnh/PDF; cập nhật thư mục chỉ chấm file mới'],['1.13','Bấm quét là mở camera ngay; cảnh báo SBD tô sai, trùng, ngoài danh sách'],['1.12','Xuất điểm theo danh sách học sinh; ảnh phiếu khoanh màu có ghi điểm'],['1.11','Mã đề nhập ở bước đáp án; nút Lỗi cộng điểm câu lỗi đề'],['1.10','Nhập danh sách học sinh từ Excel, file mẫu, mã QR'],['1.9','Thông tin tác giả'],['1.8','Nhập đáp án từ Excel, file mẫu, mã QR'],['1.7','Giao diện như mẫu, thao tác cô đọng'],['1.6','Thử với phiếu mẫu; tạo kỳ thi 3 bước'],['1.5','Hướng dẫn sử dụng'],['1.4','Chấm theo 2 mẫu phiếu BGD 2025: 3 phần, điểm từng phần'],['1.3','Giao diện gọn trên điện thoại'],['1.0','Bản đầu tiên']],
+const APP='QUMIRAI',APP_FULL='QUMIRAI – AI Exam Scanner',SLOGAN='Quét thông minh – Chấm chính xác – Phân tích toàn diện',VER='1.40',VER_DATE='24/11/2026',
+ CHANGES=[['1.40','Gọi máy chủ bằng GET cho ổn định; nút Đăng nhập sát bánh răng; bỏ thanh kỳ thi ở trang chủ, ô In phiếu đổi thành Quản lý kỳ thi; sửa tiêu đề trang Kết quả bị che'],['1.39','Bỏ thanh dùng thử trên ảnh, thay bằng nút Đăng nhập cạnh bánh răng (Dùng thử / Đăng ký hiện liên hệ); trang Tài khoản có mũi tên quay về; icon cài đặt mới; sửa dòng tác giả'],['1.38','Máy chủ tài khoản: tự dùng thử theo máy, đếm số máy mỗi tài khoản, chờ duyệt, khoá từ xa (mềm/cứng); trang Quản trị quản lý máy và thiết lập dùng thử'],['1.37','Chuyển Xoá tất cả mã đề vào hộp Chọn mã (có Chọn tất cả); dòng tác giả trang chủ: GV Phan Đình Trung in đậm, kèm trường và tỉnh'],['1.36','Sửa lỗi trang trắng trên máy tính khi bật đồng bộ; giao diện máy tính riêng (menu bên trái, bố cục rộng); hướng dẫn 5 bước bằng hình; chọn lớp chấm bằng ô Học sinh; phối màu mới'],['1.35','Xoá mã đề ngay ở Nhập đáp án (mã đang xem, chọn nhiều mã, tất cả); chọn lại lớp chấm trong trang kỳ kiểm tra; trang chủ: Mẫu phiếu TN thay Nhập đáp án'],['1.34','Bảng điểm gọn đẹp (thẻ từng học sinh, điểm tô màu); bỏ danh sách chưa có bài; ảnh phiếu: câu không làm khung trắng, SBD và mã đề khoanh xanh dương'],['1.33','Xem kết quả: chạm học sinh hiện ảnh phiếu khoanh xanh/đỏ/vàng; khi quét báo trùng SBD, bỏ trống, tô nhiều ô với 3 lựa chọn Sửa · Chấm lại · Giữ'],['1.32','Hướng dẫn: viết lại Quy trình chấm bằng camera'],['1.31','Quét nhanh hơn nhiều: bỏ nút chụp và nút Tự chấm — 4 chấm đen vào 4 ô là tự chấm; hiện ảnh phiếu khoanh đúng/sai ngay sau khi chấm, chạm để phóng to'],['1.30','Đọc phiếu chuẩn hơn: bù bóng đổ/ánh sáng từng ô, nhận ô tô bút chì nhạt; 4 ô định vị to gấp đôi; đủ 4 ô giữ ~1 giây là tự chụp ảnh nét và chấm'],['1.29','Quét: 4 ô định vị trong suốt, 4 chấm đen vào đủ 4 ô là tự chụp và chấm; không phủ màu lên bài'],['1.28','Định vị 4 góc khi quét: 4 ô ngắm trên màn hình, ô chuyển xanh khi khớp; nhận diện 4 góc chắc hơn (đối chiếu 22 ô định vị phụ), không nhầm khi nền có giấy tờ khác'],['1.27','Gắn sẵn Google Client ID: bấm Kết nối Google Drive là đồng bộ được'],['1.26','Đồng bộ máy tính ↔ điện thoại qua Google Drive; quét QR đáp án bằng camera, nhận mã QR TNMaker và file Word'],['1.25','Nhập DS học sinh theo mẫu Sở (nhiều sheet/lớp, trùng SBD giữa các lớp); ghi điểm vào đúng cột KTTX/GKI/CKI theo tên kỳ; file mẫu mới'],['1.24','Trang kỳ kiểm tra gọn: chỉ tên kỳ, nút Quét nổi bật, 6 ô nhỏ; bỏ Tạo đề thi'],['1.23','Quản lý kỳ kiểm tra: mỗi kỳ có trang 8 chức năng; lưu file đề; sửa bài làm; chấm lại / đọc lại ảnh phiếu; sửa học sinh'],['1.22','Danh sách học sinh theo lớp (bấm lớp để xem); tạo kỳ thi chọn lớp chấm bằng ô mũi tên'],['1.21','Xoá hàng loạt: mã đề, bài đã chấm, ảnh phiếu, danh sách học sinh, kỳ thi, tài khoản đã cấp'],['1.20','Đáp án Excel theo mẫu bảng dọc: cột Phần, cột Câu\\Mã Đề, mỗi mã đề một cột; file mẫu xuất cùng dạng'],['1.19','Tài khoản: đăng nhập bằng mã kích hoạt có hạn dùng; quản trị viên cấp/gia hạn tài khoản; hết hạn khoá app'],['1.18','Cài được như app: biểu tượng riêng, mở toàn màn hình, dùng khi mất mạng; nút Cài app'],['1.17','Camera: xem trực tiếp, nút chụp – chụp lại – dùng ảnh, báo lỗi quyền/camera bận/không hỗ trợ; slogan một dòng'],['1.16','Đổi tên thành QUMIRAI – AI Exam Scanner, thêm khẩu hiệu'],['1.15','Đổi tên app; ghi số phiên bản, tăng mỗi lần cập nhật'],['1.14','Chấm theo thư mục ảnh/PDF; cập nhật thư mục chỉ chấm file mới'],['1.13','Bấm quét là mở camera ngay; cảnh báo SBD tô sai, trùng, ngoài danh sách'],['1.12','Xuất điểm theo danh sách học sinh; ảnh phiếu khoanh màu có ghi điểm'],['1.11','Mã đề nhập ở bước đáp án; nút Lỗi cộng điểm câu lỗi đề'],['1.10','Nhập danh sách học sinh từ Excel, file mẫu, mã QR'],['1.9','Thông tin tác giả'],['1.8','Nhập đáp án từ Excel, file mẫu, mã QR'],['1.7','Giao diện như mẫu, thao tác cô đọng'],['1.6','Thử với phiếu mẫu; tạo kỳ thi 3 bước'],['1.5','Hướng dẫn sử dụng'],['1.4','Chấm theo 2 mẫu phiếu BGD 2025: 3 phần, điểm từng phần'],['1.3','Giao diện gọn trên điện thoại'],['1.0','Bản đầu tiên']],
  COPY=`© 2026 ${APP_FULL} v${VER} — Phát triển bởi thầy Phan Đình Trung, Trường THPT Chu Văn An, phường Bảo An, tỉnh Khánh Hòa`,COPY_S=`${APP} v${VER} · Phát triển bởi thầy Phan Đình Trung · THPT Chu Văn An`,LET='ABCD',TF=v=>v==='T'?'Đ':v==='F'?'S':v==='*'?'×':'–';
 
 /* ---------- icons ---------- */
@@ -355,7 +361,7 @@ const IC={
  excel:'<svg width="40" height="42" viewBox="0 0 40 42"><path d="M6 2h20l10 10v28H6z" fill="#21a366"/><path d="M26 2v10h10z" fill="#9ee2bf"/><path d="m13 17 12 16M25 17 13 33" stroke="#fff" stroke-width="3.6" stroke-linecap="round"/></svg>',
  cam:'<svg width="34" height="30" viewBox="0 0 24 21"><path d="M8 1 6.5 3.5H3A2 2 0 0 0 1 5.5v12A2 2 0 0 0 3 19.5h18a2 2 0 0 0 2-2v-12a2 2 0 0 0-2-2h-3.5L16 1z" fill="#fff"/><circle cx="12" cy="11" r="4.6" fill="#1565e8"/><circle cx="12" cy="11" r="2.4" fill="#fff"/></svg>',
  back:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 5l-7 7 7 7"/></svg>',
- gear:'<svg width="34" height="34" viewBox="0 0 24 24" fill="#fff"><path d="M13.6 2l.5 2.6c.6.2 1.2.5 1.7.9l2.5-.9 1.6 2.8-2 1.7c.1.6.1 1.3 0 1.9l2 1.7-1.6 2.8-2.5-.9c-.5.4-1.1.7-1.7.9l-.5 2.6h-3.2l-.5-2.6c-.6-.2-1.2-.5-1.7-.9l-2.5.9-1.6-2.8 2-1.7a6 6 0 0 1 0-1.9l-2-1.7 1.6-2.8 2.5.9c.5-.4 1.1-.7 1.7-.9L10.4 2zM12 8.6a3.4 3.4 0 1 0 0 6.8 3.4 3.4 0 0 0 0-6.8z"/></svg>',
+ gear:'<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.1"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V15z"/></svg>',
  doc:'<svg width="38" height="38" viewBox="0 0 40 40"><rect x="5" y="3" width="30" height="34" rx="6" fill="#1d6ff2"/><path d="M12 12h16M12 19h16M12 26h10" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>',
  chart:'<svg width="40" height="40" viewBox="0 0 40 40"><rect x="4" y="20" width="8" height="16" rx="2" fill="#1d6ff2"/><rect x="16" y="9" width="8" height="27" rx="2" fill="#1d6ff2"/><rect x="28" y="14" width="8" height="22" rx="2" fill="#1d6ff2"/></svg>',
  check:'<svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#16a34a"/><path d="m7 12.5 3.2 3L17 9" stroke="#fff" stroke-width="2.6" fill="none"/></svg>',
@@ -572,20 +578,19 @@ const GFIG=[
 const figGuide=()=>`<div class="gfig">${GFIG.map(([t,d,svg],i)=>`<div class="gstep"><div class="gpic">${svg}<span>${i+1}</span></div><div><b>${t}</b><p>${d}</p></div></div>`).join('')}</div>`;
 const V={};
 V.home=()=>{const e=ex(),cs=Object.keys(e.codes),okN=cs.filter(c=>keyOk(e,c)).length,ready=okN>0,s=summary(e);
- return`<header class="top"><div class="logo">${IC.logo}</div><div><h1>QUMIR<b>AI</b></h1><p>AI Exam Scanner · Chấm trắc nghiệm</p></div>${canInstall()?`<button class="inst" data-act="install" aria-label="Cài ứng dụng"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 21h14"/></svg>Cài app</button>`:''}<button class="gear" data-go="account" aria-label="Tài khoản và cài đặt" ${canInstall()?'style="margin-left:0"':''}>${IC.gear}</button></header>${syChip()}
- ${examLine(e)}
+ return`<header class="top"><div class="logo">${IC.logo}</div><div><h1>QUMIR<b>AI</b></h1><p>AI Exam Scanner · Chấm trắc nghiệm</p></div><div class="hdr-right">${canInstall()?`<button class="inst" data-act="install" aria-label="Cài ứng dụng"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 21h14"/></svg>Cài app</button>`:''}${GATE.state==='trial'?`<button class="loginlink" data-act="trialMenu">Đăng nhập</button>`:''}<button class="gear" data-go="account" aria-label="Tài khoản và cài đặt">${IC.gear}</button></div></header>${syChip()}
  <div class="wrap">${licExpiryNote()}
  <section class="hero"><div class="hero-top"><svg width="30" height="30" viewBox="0 0 40 40" fill="none" stroke="#1565e8" stroke-width="3.4" stroke-linecap="round"><path d="M4 13V6a2 2 0 0 1 2-2h7M27 4h7a2 2 0 0 1 2 2v7M36 27v7a2 2 0 0 1-2 2h-7M13 36H6a2 2 0 0 1-2-2v-7"/><circle cx="20" cy="20" r="7"/><path d="m24 16 5-5"/></svg><span class="chip">QUÉT TRỰC TIẾP</span>
  ${ready?`<span class="ready">${IC.check} Sẵn sàng</span>`:`<button class="ready no" data-go="key">Nhập đáp án ›</button>`}</div>
  <div class="hero-body"><div class="art">${sheetArt()}</div><div class="htxt"><h2>Chấm bài bằng Camera</h2><p>Tự động nhận diện phiếu, mã đề, số báo danh và chấm điểm.</p><button class="demo" data-act="demo">▶ Thử ngay với phiếu mẫu</button></div>
  <button class="go" data-act="scan">${IC.cam} BẮT ĐẦU QUÉT <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="m9 5 7 7-7 7"/></svg></button></div></section>
- <div class="tiles"><button class="tile t1" data-act="fromImg">${IC.photo}Chấm từ ảnh</button><button class="tile t2" data-act="fromPdf">${IC.pdf}Chấm từ PDF</button><button class="tile t3" data-act="batch">${IC.batch}Chấm hàng loạt</button><button class="tile t4" data-go="print">${IC.print}In phiếu trả lời</button></div>
+ <div class="tiles"><button class="tile t1" data-act="fromImg">${IC.photo}Chấm từ ảnh</button><button class="tile t2" data-act="fromPdf">${IC.pdf}Chấm từ PDF</button><button class="tile t3" data-act="batch">${IC.batch}Chấm hàng loạt</button><button class="tile t4" data-go="exams">${IC.grid}Quản lý kỳ thi</button></div>
  <section class="panel"><div class="ph">${IC.doc}<h3>Quản lý kỳ kiểm tra</h3><a data-go="hub">Mở kỳ này ›</a></div><div class="row4"><button data-act="newExam">${IC.plus}Tạo kỳ thi</button><button data-go="tpl">${IC.doc}Mẫu phiếu TN<small class="cnt">${TP[ex().tpl].made.length} số</small></button><button data-go="codes">${IC.grid}Quản lý mã đề</button><button data-go="students">${IC.people}Danh sách học sinh</button></div></section>
  <section class="panel"><div class="ph">${IC.chart}<h3>Thống kê và báo cáo</h3><a data-go="scores">Xem tất cả ›</a></div><div class="row4"><button data-go="scores">${IC.pie}Bảng điểm${s.n?`<small class="cnt">${s.n} bài</small>`:''}</button><button data-go="dist">${IC.bars}Phổ điểm</button><button data-go="analysis">${IC.analyze}Phân tích câu hỏi</button><button data-go="export">${IC.excel}Xuất Excel / PDF</button></div></section>
  <section class="banner" data-go="scores"><svg width="46" height="46" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6h20v9a10 10 0 0 1-20 0z" fill="#f5b301"/><path d="M14 9H7a7 7 0 0 0 7 9M34 9h7a7 7 0 0 1-7 9" fill="none" stroke="#f5b301" stroke-width="3"/><rect x="21" y="25" width="6" height="8" fill="#e09b00"/><rect x="15" y="33" width="18" height="6" rx="2" fill="#a35d00"/><path d="m24 9 1.6 3.3 3.6.5-2.6 2.5.6 3.6L24 17.2l-3.2 1.7.6-3.6-2.6-2.5 3.6-.5z" fill="#fff6c8"/></svg>
  <div class="grow"><div class="slogan">${esc(SLOGAN)}</div><div class="muted small">${s.n?`${s.n} bài · TB ${fmt(s.avg)}/${fmt(s.mx)} · ${Math.round(s.pass)}% đạt`:'Chưa có bài — bấm BẮT ĐẦU QUÉT hoặc thử phiếu mẫu'}</div></div>
  <svg width="40" height="40" viewBox="0 0 48 48" aria-hidden="true"><rect x="8" y="30" width="32" height="6" rx="1.5" fill="#e11d48"/><rect x="10" y="36" width="30" height="6" rx="1.5" fill="#2563eb"/><path d="M24 8 4 16l20 8 20-8z" fill="#1e293b"/><path d="M12 19v7c0 3 6 5 12 5s12-2 12-5v-7l-12 5z" fill="#334155"/><path d="M42 17v9" stroke="#f5b301" stroke-width="2"/></svg></section>
- <p class="credit">Phát triển bởi GV <b>Phan Đình Trung</b><br>Trường THPT Chu Văn An · Tỉnh Khánh Hòa</p>
+ <p class="credit">Phát triển bởi <b>Phan Đình Trung</b> giáo viên<br>Trường THPT Chu Văn An · Tỉnh Khánh Hòa</p>
  </div>`};
 V.exams=()=>`${sub('Quản lý kỳ kiểm tra')}<div class="wrap">
  <button class="btn wide" data-act="newExam">+ Tạo kỳ kiểm tra mới</button><div style="height:8px"></div>
@@ -665,7 +670,7 @@ const classesOf=()=>{const m=new Map();S.students.forEach(x=>{const c=(x.cls||''
 let stuCls=null;
 const stuRows=q=>{q=q.toLowerCase();const all=stuCls==='*';let k=0;return S.students.filter(s=>(all||(s.cls||'')===stuCls)&&(!q||s.name.toLowerCase().includes(q)||s.sbd.includes(q))).sort((a,b)=>all?natCmp(a.cls||'~',b.cls||'~'):0).map(s=>`<li><span class="stt">${++k}</span><b style="font-variant-numeric:tabular-nums">${esc(s.sbd)}</b><div class="grow" data-act="stuEdit" data-s="${esc(sKey(s))}" style="cursor:pointer">${esc(s.name)} ${all?`<span class="muted small">${esc(s.cls||'')}</span>`:''}</div><button class="btn red" data-act="stuDel" data-s="${esc(sKey(s))}" aria-label="Xoá">Xoá</button></li>`).join('')||'<li class="muted">Chưa có học sinh. Nhập từ Excel, mã QR hoặc dán từ Excel ở trên — mỗi lớp một lần.</li>'};
 let scoreSort='sbd';
-const resHead=cur=>`<div class="sub"><h2 style="padding-left:10px">Kết quả &amp; thống kê <small class="subx">· ${esc(ex().name)}</small></h2></div><div class="rtabs">${[['scores','Bảng điểm'],['dist','Phổ điểm'],['analysis','Câu hỏi'],['export','Xuất file']].map(([k,t])=>`<button data-act="rtab" data-v="${k}" class="${k===cur?'on':''}">${t}</button>`).join('')}</div>`;
+const resHead=cur=>`<div class="sub"><button data-act="back" aria-label="Quay lại">${IC.back}</button><h2 class="sub1">Kết quả &amp; thống kê</h2></div><div class="rtabs">${[['scores','Bảng điểm'],['dist','Phổ điểm'],['analysis','Câu hỏi'],['export','Xuất file']].map(([k,t])=>`<button data-act="rtab" data-v="${k}" class="${k===cur?'on':''}">${t}</button>`).join('')}</div>`;
 V.scores=()=>{const e=ex(),rs=[...e.results].sort(scoreSort==='score'?(a,b)=>b.score-a.score:scoreSort==='new'?(a,b)=>b.t-a.t:(a,b)=>a.sbd.localeCompare(b.sbd)),mx=maxOf(e),cl=classList(e).length,sm=summary(e);
  const col=v=>v>=mx*.8?'g':v>=mx*.65?'b':v>=mx*.5?'y':'r';
  return`${resHead('scores')}<div class="wrap">
@@ -732,7 +737,7 @@ V.history=()=>{const all=S.exams.flatMap(e=>e.results.map(r=>({...r,e}))).sort((
  return`<div class="sub"><h2 style="padding-left:10px">Lịch sử chấm</h2></div><div class="wrap"><div class="card">${all.length?`<ul class="list">${all.map(r=>`<li data-act="histOpen" data-e="${r.e.id}" data-id="${r.id}" style="cursor:pointer"><div class="grow"><b>${esc(stu(r.sbd)?.name||'SBD '+r.sbd)}</b><div class="muted small">${esc(r.e.name)} · mã ${esc(r.made)} · ${src[r.src]||''} · ${new Date(r.t).toLocaleString('vi-VN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'})}</div></div><span class="score">${fmt(r.score)}</span></li>`).join('')}</ul>`:'<div class="empty">Chưa có lần chấm nào.</div>'}</div></div>`};
 V.stats=()=>{const e=ex(),s=summary(e);return`<div class="sub"><h2 style="padding-left:10px">Thống kê</h2></div>${examLine(e,1)}<div class="wrap"><div class="stats4" style="margin-bottom:10px"><div><b>${s.n}</b>Bài đã chấm</div><div><b>${fmt(s.avg)}</b>Điểm TB / ${fmt(s.mx)}</div><div><b>${fmt(s.max)}</b>Cao nhất</div><div><b>${Math.round(s.pass)}%</b>Đạt ≥ ${fmt(s.mx/2)}</div></div>
  <section class="panel"><div class="row4"><button data-go="scores">${IC.pie}Bảng điểm</button><button data-go="dist">${IC.bars}Phổ điểm</button><button data-go="analysis">${IC.analyze}Phân tích câu hỏi</button><button data-go="export">${IC.excel}Xuất Excel / PDF</button></div></section></div>`};
-V.account=()=>`<div class="sub"><h2 style="padding-left:10px">Tài khoản &amp; cài đặt</h2><button data-go="guide" aria-label="Hướng dẫn" style="font-weight:800;font-size:20px">?</button></div><div class="wrap">${accCard()}${syCard()}<div class="card"><h4>Giáo viên</h4><label class="f">Họ tên<input id="aT" value="${esc(S.settings.teacher)}"></label><label class="f">Trường<input id="aS" value="${esc(S.settings.school)}"></label></div>
+V.account=()=>`${sub('Tài khoản & cài đặt','<button data-go="guide" aria-label="Hướng dẫn" style="font-weight:800;font-size:20px;color:#fff">?</button>')}<div class="wrap">${accCard()}${syCard()}<div class="card"><h4>Giáo viên</h4><label class="f">Họ tên<input id="aT" value="${esc(S.settings.teacher)}"></label><label class="f">Trường<input id="aS" value="${esc(S.settings.school)}"></label></div>
  <div class="card"><h4>Nhận diện</h4><label class="f">Độ nhạy ô tô: <b id="thrV">${S.settings.thr}</b><input id="aThr" type="range" min="0.25" max="0.65" step="0.01" value="${S.settings.thr}" style="min-height:30px"></label><p class="muted small" style="margin-top:-4px">Giảm nếu ô tô nhạt bị bỏ sót; tăng nếu vết bẩn bị nhận là ô tô.</p>
  <label style="display:flex;gap:10px;align-items:center;min-height:40px"><input type="checkbox" id="aSound" ${S.settings.sound?'checked':''} style="width:20px;height:20px"> Âm báo khi chấm xong</label><p class="muted small" style="margin:0">Số câu và cách tính điểm từng phần đặt riêng cho mỗi kỳ thi (Quản lý bài thi → Sửa cấu trúc).</p></div>
  <div class="btns"><button class="btn" data-act="accSave">Lưu cài đặt</button></div>
@@ -776,21 +781,79 @@ async function licDecode(code){code=String(code||'').replace(/\s+/g,'');const pa
  const ok=await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},await pubKeyP,sg,pb);if(!ok)throw new Error('Mã kích hoạt không hợp lệ (sai chữ ký)');
  let p;try{p=JSON.parse(new TextDecoder().decode(pb))}catch(x){throw new Error('Mã kích hoạt bị hỏng')}return p}
 const daysLeft=p=>Math.floor((new Date(p.e+'T23:59:59')-nowSafe())/864e5)+1;
+
+/* ---------- máy chủ: dùng thử, số máy, khoá từ xa ---------- */
+const SRV_URL='https://script.google.com/macros/s/AKfycbyI9LY3q3Io1KOCNx58KdeqBU5QkLmeBYOBQaN_XMJ_v1NWN9YnCkeBpC8QIctHRZTFYQ/exec';
+const GATE_KEY='qumirai-gate',DEV_KEY='qumirai-dev',ADMS_KEY='qumirai-admsecret',GRACE_DAYS=7;
+function devId(){let id=lsGet(DEV_KEY);if(!id){id='D'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);lsSet(DEV_KEY,id)}return id}
+function devInfo(){const ua=navigator.userAgent||'';const os=(ua.match(/Android|iPhone|iPad|Windows|Mac OS|Linux/)||['?'])[0];return os+' · '+(isStandalone()?'app':'web')}
+async function srvCall(body){const u=SRV_URL+(SRV_URL.indexOf('?')>=0?'&':'?')+'p='+encodeURIComponent(JSON.stringify(body));const r=await fetch(u,{method:'GET',redirect:'follow'});if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}
+const withTO=(pr,ms)=>Promise.race([pr,new Promise((_,x)=>setTimeout(()=>x(new Error('timeout')),ms))]);
+let GATE={state:'',trialEnd:'',contact:'',checked:false};
+function trialDaysLeft(){if(!GATE.trialEnd)return 0;return Math.max(0,Math.floor((new Date(GATE.trialEnd+'T23:59:59')-nowSafe())/864e5)+1)}
+const allowed=()=>GATE.state==='ok'||GATE.state==='trial';
+const gateCache=()=>{try{return JSON.parse(lsGet(GATE_KEY)||'null')||{}}catch(x){return{}}};
+async function wipeAll(){try{Object.keys(localStorage).forEach(k=>{if(k!==DEV_KEY&&k!==GATE_KEY)localStorage.removeItem(k)})}catch(x){}
+ try{indexedDB.deleteDatabase('tnmarker-img')}catch(x){}
+ try{if('caches'in window){const ks=await caches.keys();for(const k of ks)await caches.delete(k)}}catch(x){}}
+function gateProvisional(){GATE.checked=true;const hasCode=LIC.ok&&LIC.p,exp=LIC.checked&&LIC.p&&LIC.why==='expired';
+ if(!SRV_URL){GATE.state=LIC.ok?'ok':(exp?'expired':'need_login');return}
+ const c=gateCache();if(c.state){GATE.state=c.state;GATE.trialEnd=c.trialEnd||'';GATE.contact=c.contact||''}else GATE.state=hasCode?(LIC.ok?'ok':'expired'):'trial'}
+async function gateSync(){
+ const hasCode=LIC.ok&&LIC.p,exp=LIC.checked&&LIC.p&&LIC.why==='expired';
+ if(!SRV_URL){GATE.state=LIC.ok?'ok':(exp?'expired':'need_login');GATE.checked=true;return}
+ let res=null;
+ try{res=await withTO(srvCall({action:'sync',deviceId:devId(),account:hasCode?LIC.p.u:'',name:hasCode?(LIC.p.n||''):'',role:hasCode?(LIC.p.r||'user'):'',info:devInfo()}),9000)}catch(x){res=null}
+ const cache=gateCache();
+ if(res&&res.ok){
+  GATE.contact=res.contact||GATE.contact;GATE.trialEnd=res.trialEnd||'';const st=res.status;
+  if(st==='locked_hard'){GATE.state='locked_hard';await wipeAll();lsSet(LIC_KEY,null);LIC={ok:false,checked:true,p:null,why:'bad'}}
+  else if(st==='locked_soft'||st==='locked')GATE.state='locked_soft';
+  else if(st==='pending')GATE.state='pending';
+  else if(hasCode)GATE.state=LIC.ok?'ok':'expired';
+  else if(st==='trial')GATE.state='trial';
+  else if(st==='trial_expired')GATE.state='trial_expired';
+  else if(st==='active')GATE.state=hasCode?(LIC.ok?'ok':'expired'):'trial';
+  else GATE.state=exp?'expired':'need_login';
+  const allow=(GATE.state==='ok'||GATE.state==='trial');
+  lsSet(GATE_KEY,JSON.stringify({state:GATE.state,trialEnd:GATE.trialEnd,contact:GATE.contact,lastOk:allow?Date.now():(cache.lastOk||0)}));
+ }else{ // không có mạng -> dùng kết quả đã lưu
+  if(cache.state){GATE.contact=cache.contact||'';GATE.trialEnd=cache.trialEnd||'';
+   const wasAllow=cache.state==='ok'||cache.state==='trial',fresh=cache.lastOk&&(Date.now()-cache.lastOk<GRACE_DAYS*864e5);
+   if(wasAllow)GATE.state=fresh?cache.state:'need_net';else GATE.state=cache.state;
+  }else GATE.state=hasCode?(LIC.ok?'ok':'expired'):'trial'; // lần đầu, chưa có mạng: tạm cho dùng
+ }
+ GATE.checked=true}
+async function gateRetry(){const e=$('#lkErr');if(e)e.textContent='Đang kiểm tra…';await gateSync();if(allowed()){hideLock();render()}else gateScreen()}
+
 async function licCheck(){const code=lsGet(LIC_KEY);if(!code){LIC={ok:false,checked:true,p:null,why:'new'};return LIC}
  try{const p=await licDecode(code);const dl=daysLeft(p);LIC={ok:dl>0,checked:true,p,why:dl>0?'':'expired',code}}catch(x){LIC={ok:false,checked:true,p:null,why:'bad'}}return LIC}
 async function licLogin(user,code){const p=await licDecode(code);if(String(user||'').trim().toLowerCase()!==String(p.u).toLowerCase())throw new Error('Tên đăng nhập không khớp với mã kích hoạt');
  if(daysLeft(p)<=0)throw new Error(`Mã này đã hết hạn ngày ${vnDate(p.e)} — liên hệ quản trị viên để gia hạn`);lsSet(LIC_KEY,code.replace(/\s+/g,''));return licCheck()}
-function showLock(){const L=$('#lock');L.hidden=false;document.body.style.overflow='hidden';$('#lkVer').textContent=`QUMIRAI v${VER} · Phát triển bởi thầy Phan Đình Trung`;$('#lkErr').textContent='';
- if(LIC.why==='expired'&&LIC.p){$('#lkTitle').textContent='Tài khoản đã hết hạn';$('#lkMsg').innerHTML=`Tài khoản <b>${esc(LIC.p.n||LIC.p.u)}</b> hết hạn ngày <b>${vnDate(LIC.p.e)}</b>. Nhập mã gia hạn mới do quản trị viên cấp. Dữ liệu chấm của thầy/cô vẫn được giữ nguyên.`;$('#lkUser').value=LIC.p.u}
- else if(LIC.why==='bad'){$('#lkTitle').textContent='Đăng nhập lại';$('#lkMsg').textContent='Mã kích hoạt đã lưu không còn hợp lệ. Nhập lại mã do quản trị viên cấp.'}
- else{$('#lkTitle').textContent='Đăng nhập';$('#lkMsg').textContent='Nhập tên đăng nhập và mã kích hoạt do quản trị viên cấp.'}}
+function loginForm(user,msg,title){return `${title?`<h2 id="lkTitle">${esc(title)}</h2>`:''}${msg?`<p class="lk-msg">${esc(msg)}</p>`:''}
+ <label class="f">Tên đăng nhập<input id="lkUser" autocomplete="username" autocapitalize="none" spellcheck="false" value="${esc(user||'')}" placeholder="VD: nguyenvana"></label>
+ <label class="f">Mã kích hoạt<textarea id="lkCode" class="in" rows="3" spellcheck="false" autocapitalize="none" placeholder="Dán mã kích hoạt (chuỗi dài có dấu chấm)"></textarea></label>
+ <button class="btn wide" id="lkGo">Đăng nhập</button>
+ <div class="pick lk-qr"><span>Kích hoạt bằng ảnh mã QR</span><input type="file" id="lkQr" accept="image/*" aria-label="Kích hoạt bằng ảnh mã QR"></div>
+ <p class="lk-err" id="lkErr" role="alert"></p>`}
+function bindLogin(){const g=$('#lkGo');if(g)g.onclick=()=>doLogin($('#lkUser').value,$('#lkCode').value);
+ const c=$('#lkCode');if(c)c.addEventListener('paste',()=>setTimeout(()=>{const v=c.value.trim();if(v.startsWith('QUMIRAI|')){const[,u,cc]=v.split('|');$('#lkUser').value=u;c.value=cc}},0));
+ const q=$('#lkQr');if(q)q.onchange=async ev=>{const f=ev.target.files[0];ev.target.value='';if(!f)return;$('#lkErr').textContent='Đang đọc mã QR…';try{const d=await decodeQR(f);if(!d){$('#lkErr').textContent='Không thấy mã QR trong ảnh';return}const[tag,u,cc]=String(d).split('|');if(tag!=='QUMIRAI'||!cc){$('#lkErr').textContent='Mã QR không phải của QUMIRAI';return}$('#lkUser').value=u;$('#lkCode').value=cc;doLogin(u,cc)}catch(x){$('#lkErr').textContent=x.message||'Không đọc được mã QR'}}}
+function gateScreen(){const L=$('#lock');L.hidden=false;document.body.style.overflow='hidden';const C=$('#lkCard');$('#lkVer').textContent=`QUMIRAI v${VER} · Phát triển bởi thầy Phan Đình Trung`;
+ const ct=GATE.contact||'Liên hệ thầy Phan Đình Trung – ĐT/Zalo: 0989003730 để đăng ký sử dụng.',st=GATE.state;
+ if(st==='pending'){C.innerHTML=`<div class="lk-ic wait">⏳</div><h2>Đang chờ duyệt</h2><p class="lk-msg">Máy này đang chờ quản trị viên duyệt. Khi được duyệt, mở lại app là dùng được.</p><button class="btn wide" id="lkRetry">Kiểm tra lại</button><p class="lk-err" id="lkErr"></p><div class="btns"><button class="btn ghost" id="lkOut">Dùng tài khoản khác</button></div>`;$('#lkRetry').onclick=gateRetry;$('#lkOut').onclick=()=>{lsSet(LIC_KEY,null);location.reload()};return}
+ if(st==='locked_soft'||st==='locked_hard'||st==='locked'){C.innerHTML=`<div class="lk-ic bad">🔒</div><h2>Tài khoản đã bị khoá</h2><p class="lk-msg">${esc(ct)}</p>`+loginForm('','Có mã mới? Nhập để mở lại:')+`<button class="btn ghost wide" id="lkRetry" style="margin-top:8px">Kiểm tra lại</button>`;bindLogin();$('#lkRetry').onclick=gateRetry;return}
+ if(st==='trial_expired'){C.innerHTML=`<div class="lk-ic">⌛</div><h2>Hết hạn dùng thử</h2><p class="lk-msg">${esc(ct)}</p>`+loginForm('','Đã có mã? Nhập để dùng bản đầy đủ:');bindLogin();return}
+ if(st==='need_net'){C.innerHTML=`<div class="lk-ic">📶</div><h2>Cần kết nối mạng</h2><p class="lk-msg">Hãy bật mạng rồi mở lại app để xác thực tài khoản. Dữ liệu của thầy/cô vẫn được giữ.</p><button class="btn wide" id="lkRetry">Thử lại</button><p class="lk-err" id="lkErr"></p>`;$('#lkRetry').onclick=gateRetry;return}
+ if(st==='expired'){C.innerHTML=`<h2>Tài khoản đã hết hạn</h2><p class="lk-msg">Tài khoản <b>${esc((LIC.p&&(LIC.p.n||LIC.p.u))||'')}</b> hết hạn ngày <b>${LIC.p?vnDate(LIC.p.e):''}</b>. Nhập mã gia hạn mới. Dữ liệu vẫn được giữ.</p>`+loginForm(LIC.p?LIC.p.u:'','');bindLogin();return}
+ C.innerHTML=loginForm('','Nhập tên đăng nhập và mã kích hoạt do quản trị viên cấp.','Đăng nhập');bindLogin()}
+function trialMenu(){const ct=GATE.contact||'Liên hệ thầy Phan Đình Trung – ĐT/Zalo: 0989003730 để đăng ký sử dụng.';
+ modal(`<h3>Bản dùng thử</h3><p class="muted small" style="margin-top:0">Thầy/cô đang dùng bản dùng thử QUMIRAI.</p><div class="btns"><button class="btn ghost" data-act="mclose">Tiếp tục dùng thử</button><button class="btn" id="tReg">Đăng ký bản đầy đủ</button></div>`);
+ const r=$('#tReg');if(r)r.onclick=()=>modal(`<h3>Đăng ký sử dụng</h3><p style="margin-top:0;font-size:15px">${esc(ct)}</p><div class="btns"><button class="btn ghost" data-act="mclose">Đóng</button><button class="btn" data-act="openLoginM">Nhập mã kích hoạt</button></div>`)}
+function openLogin(){const L=$('#lock');L.hidden=false;document.body.style.overflow='hidden';$('#lkCard').innerHTML=`<button class="lkx" id="lkClose" aria-label="Đóng">✕</button>`+loginForm('','Nhập mã kích hoạt do thầy cấp để dùng bản đầy đủ.','Đăng ký / Nhập mã');bindLogin();$('#lkClose').onclick=()=>hideLock()}
 function hideLock(){$('#lock').hidden=true;document.body.style.overflow=''}
-async function doLogin(user,code){$('#lkErr').textContent='';$('#lkGo').disabled=true;$('#lkGo').textContent='Đang kiểm tra…';
- try{await licLogin(user,code);hideLock();toast(`Xin chào ${LIC.p.n||LIC.p.u} — tài khoản dùng đến ${vnDate(LIC.p.e)}`,3500);closeModal();render()}catch(x){$('#lkErr').textContent=x.message}finally{$('#lkGo').disabled=false;$('#lkGo').textContent='Đăng nhập'}}
-$('#lkGo').onclick=()=>doLogin($('#lkUser').value,$('#lkCode').value);
-$('#lkCode').addEventListener('paste',()=>setTimeout(()=>{const v=$('#lkCode').value.trim();if(v.startsWith('QUMIRAI|')){const[,u,c]=v.split('|');$('#lkUser').value=u;$('#lkCode').value=c}},0));
-$('#lkQr').onchange=async ev=>{const f=ev.target.files[0];ev.target.value='';if(!f)return;$('#lkErr').textContent='Đang đọc mã QR…';
- try{const d=await decodeQR(f);if(!d){$('#lkErr').textContent='Không thấy mã QR trong ảnh — chụp gần, rõ hơn';return}const[tag,u,c]=String(d).split('|');if(tag!=='QUMIRAI'||!c){$('#lkErr').textContent='Mã QR này không phải mã kích hoạt QUMIRAI';return}$('#lkUser').value=u;$('#lkCode').value=c;doLogin(u,c)}catch(x){$('#lkErr').textContent=x.message||'Không đọc được mã QR'}};
+async function doLogin(user,code){const e=$('#lkErr');if(e)e.textContent='';const g=$('#lkGo');if(g){g.disabled=true;g.textContent='Đang kiểm tra…'}
+ try{await licLogin(user,code);await gateSync();if(!allowed()){gateScreen();return}hideLock();toast(`Xin chào ${LIC.p.n||LIC.p.u}`,3000);closeModal();render()}catch(x){if(e)e.textContent=x.message}finally{const g2=$('#lkGo');if(g2){g2.disabled=false;g2.textContent='Đăng nhập'}}}
 const isAdmin=()=>LIC.ok&&LIC.p&&LIC.p.r==='admin';
 function licExpiryNote(){if(!LIC.ok||!LIC.p)return'';const dl=daysLeft(LIC.p);return dl<=7?`<div class="card tip" data-go="account" style="cursor:pointer"><b>Tài khoản còn ${dl} ngày</b> (hết hạn ${vnDate(LIC.p.e)}). Liên hệ quản trị viên để gia hạn.</div>`:''}
 /* admin: signing key on this device only */
@@ -814,6 +877,48 @@ function accCard(){const p=LIC.p;if(!p)return'';const dl=daysLeft(p),far=p.e>='2
  return`<div class="card acc"><div style="display:flex;gap:12px;align-items:center"><div class="av">${esc((p.n||p.u).trim().split(/\s+/).pop().slice(0,1).toUpperCase())}</div><div class="grow"><b>${esc(p.n||p.u)}</b> ${p.r==='admin'?'<span class="tag ok">Quản trị</span>':'<span class="tag">Giáo viên</span>'}<div class="muted small">Tên đăng nhập: ${esc(p.u)}</div></div></div>
  <div class="accl"><span>Thời hạn sử dụng</span><b>${far?'Không giới hạn':`đến hết ${vnDate(p.e)}`}</b></div>${far?'':`<div class="accl"><span>Còn lại</span><b style="color:${dl<=7?'var(--bad)':'var(--ok)'}">${dl} ngày</b></div>`}
  <div class="btns">${p.r==='admin'?'<button class="btn" data-go="admin">Quản trị tài khoản</button>':''}<button class="btn ghost" data-act="renew">Nhập mã gia hạn</button><button class="btn ghost" data-act="logout">Đăng xuất</button></div></div>`}
+const V_ADMIN_SRV=1;
+/* ---------- quản trị máy chủ (danh sách máy, duyệt, khoá) ---------- */
+let srvDevices=null,srvCfg=null;
+async function admAPI(cmd,extra){const secret=lsGet(ADMS_KEY);if(!secret)throw new Error('Chưa nhập mật khẩu quản trị máy chủ');const r=await srvCall({action:'admin',secret,cmd,...(extra||{})});if(r.error)throw new Error(r.error);return r}
+async function admReload(){try{toast('Đang tải danh sách máy…');const r=await admAPI('list');srvDevices=r.devices||[];srvCfg=r.config||null;render();toast(`Có ${srvDevices.length} máy`,2500)}catch(x){toast(x.message||'Lỗi tải danh sách',4000)}}
+async function admAct(cmd,extra){try{await admAPI(cmd,extra);await admAPI('list').then(r=>{srvDevices=r.devices;srvCfg=r.config});render();toast('Đã cập nhật')}catch(x){toast(x.message||'Lỗi',4000)}}
+const SST={trial:['Dùng thử','#0891b2'],active:['Đang dùng','#16a34a'],pending:['Chờ duyệt','#d97706'],locked_soft:['Đã khoá','#dc2626'],locked_hard:['Khoá cứng','#991b1b'],trial_expired:['Hết thử','#6b7280']};
+function admDevHTML(x){
+ const st=SST[x.status]||[x.status,'#6b7280'];
+ const meta=esc(x.info||'')+(x.trialEnd?' · thử đến '+vnDate(x.trialEnd):'');
+ const seen=x.lastSeen?'Gần nhất: '+new Date(x.lastSeen).toLocaleString('vi-VN'):'';
+ let btn='';
+ if(x.status==='pending')btn+='<button class="btn sm" data-act="srvSet" data-id="'+x.deviceId+'" data-st="active">Duyệt</button>';
+ if(x.status==='locked_soft'||x.status==='locked_hard')btn+='<button class="btn sm" data-act="srvSet" data-id="'+x.deviceId+'" data-st="active">Mở</button>';
+ else btn+='<button class="btn ghost sm" data-act="srvSet" data-id="'+x.deviceId+'" data-st="locked_soft">Khoá</button>';
+ btn+='<button class="btn ghost sm" data-act="srvHard" data-id="'+x.deviceId+'" aria-label="Khoá cứng">⌫</button>';
+ return '<div class="addev"><div class="grow"><span class="adst" style="background:'+st[1]+'1a;color:'+st[1]+'">'+st[0]+'</span> <span class="muted small">'+meta+'</span><div class="muted small">'+seen+'</div></div><div class="adbtn">'+btn+'</div></div>';
+}
+function admAcctHTML(acct,list){
+ const head='<div class="adhead"><b>'+esc(acct)+'</b> <span class="muted small">'+list.length+' máy</span>'+(acct!=='(dùng thử)'?'<button class="btn red sm" data-act="srvLockAcct" data-a="'+esc(acct)+'">Khoá cả TK</button>':'')+'</div>';
+ const devs=list.slice().sort((a,b)=>b.lastSeen-a.lastSeen).map(admDevHTML).join('');
+ return '<div class="adacct">'+head+devs+'</div>';
+}
+function admListHTML(){
+ if(!srvDevices)return lsGet(ADMS_KEY)?'':'<p class="muted small" style="margin:6px 0 0">Nhập mật khẩu để xem các máy đang dùng, duyệt máy mới và khoá từ xa.</p>';
+ if(!srvDevices.length)return '<p class="muted small" style="margin:8px 0 0">Chưa có máy nào.</p>';
+ const byA={};srvDevices.forEach(x=>{const k=x.account||'(dùng thử)';(byA[k]=byA[k]||[]).push(x)});
+ return Object.keys(byA).map(a=>admAcctHTML(a,byA[a])).join('');
+}
+function admCfgHTML(){
+ if(!srvCfg)return '';
+ return '<div class="cfgrid"><label class="f">Số ngày dùng thử<input id="cfDays" type="number" min="1" value="'+srvCfg.trialDays+'"></label><label class="f">Số máy/tài khoản<input id="cfMax" type="number" min="1" value="'+srvCfg.maxDevices+'"></label></div><label class="f">Dòng liên hệ khi hết hạn<input id="cfContact" value="'+esc(srvCfg.contact||'')+'"></label><div class="btns" style="margin-top:0"><button class="btn ghost" data-act="srvCfg">Lưu thiết lập</button></div>';
+}
+function srvCard(){
+ const has=!!lsGet(ADMS_KEY);
+ const reload=has?'<button class="btn ghost" data-act="srvLoad">Tải lại</button>':'';
+ return '<div class="card"><h4>Quản lý máy &amp; dùng thử (máy chủ)</h4>'
+  +'<label class="f">Mật khẩu quản trị máy chủ<input id="srvSecret" type="password" value="'+esc(lsGet(ADMS_KEY)||'')+'" placeholder="mật khẩu đặt trong Apps Script"></label>'
+  +'<div class="btns" style="margin-top:0"><button class="btn" data-act="srvSaveSecret">Lưu &amp; tải danh sách</button>'+reload+'</div>'
+  +admCfgHTML()+admListHTML()+'</div>';
+}
+
 V.admin=()=>{const list=(S.admin&&S.admin.issued)||[],t=todayStr(),hasKey=!!lsGet(ADM_KEY);
  const preset=[[30,'1 tháng'],[90,'3 tháng'],[180,'6 tháng'],[365,'1 năm']],addD=d=>{const x=new Date();x.setDate(x.getDate()+d);return todayStr(x)};
  return`${sub('Quản trị tài khoản')}<div class="wrap">
@@ -828,11 +933,13 @@ V.admin=()=>{const list=(S.admin&&S.admin.issued)||[],t=todayStr(),hasKey=!!lsGe
  <p class="muted small" style="margin:6px 0 0">Gia hạn: cấp lại cùng tên đăng nhập với ngày hết hạn mới. Giáo viên nhập mã mới ở Tài khoản → Nhập mã gia hạn.</p></form>
  <div class="card"><h4>Đã cấp (${list.length})</h4>${list.length?`<ul class="list">${list.map((x,i)=>{const dl=Math.floor((new Date(x.e+'T23:59:59')-new Date())/864e5)+1;return`<li><div class="grow"><b>${esc(x.n)}</b> <span class="muted small">${esc(x.u)}${x.r==='admin'?' · quản trị':''}</span><div class="small" style="color:${dl<=0?'var(--bad)':dl<=7?'#b45309':'var(--mute)'}">${dl<=0?'Đã hết hạn':'Còn '+dl+' ngày'} · đến ${vnDate(x.e)}</div></div><button class="btn ghost sm" data-act="issShow" data-i="${i}">Mã</button><button class="btn ghost sm" data-act="issRenew" data-i="${i}">Gia hạn</button></li>`}).join('')}</ul>`:'<p class="muted small" style="margin:0">Chưa cấp tài khoản nào trên máy này.</p>'}</div>
  ${hasKey?'<div class="btns"><button class="btn red" data-act="admKeyDel">Gỡ khoá quản trị khỏi máy này</button></div>':''}
+ ${srvCard()}
  <p class="muted small">Mã kích hoạt có chữ ký số: chỉ máy có khoá quản trị mới tạo được. Mã đã cấp dùng được đến hết hạn (không thu hồi sớm được) — nên cấp thời hạn vừa đủ.</p></div>`};
 
 /* ---------- router ---------- */
 const MAIN=['home','history','scores','account'];
-function render(){if(!LIC.checked)return;if((location.hash||'').slice(1)==='account'&&syWeb()&&gcid())lib(GSI).catch(()=>{});if((location.hash||'').slice(1)!=='detail')edD=null;if(!LIC.ok){if(scanOn)closeScan(true);showLock();return}let v=(location.hash||'#home').slice(1);if(!V[v]&&v!=='scan')v='home';if(v==='admin'&&!isAdmin())v='account';
+function render(){if(!LIC.checked)return;if((location.hash||'').slice(1)==='account'&&syWeb()&&gcid())lib(GSI).catch(()=>{});if((location.hash||'').slice(1)!=='detail')edD=null;if(!allowed()){if(scanOn)closeScan(true);gateScreen();return}
+ const gb=$('#gbar');if(gb)gb.hidden=true;let v=(location.hash||'#home').slice(1);if(!V[v]&&v!=='scan')v='home';if(v==='admin'&&!isAdmin())v='account';
  if(v==='scan'){openScan();return}else if(scanOn)closeScan(true);
  try{$('#view').innerHTML=V[v]()}catch(err){console.error(err);$('#view').innerHTML=`<div class="wrap"><div class="card"><h4>Có lỗi khi hiển thị trang</h4><p class="muted small">${esc(String(err&&err.message||err))}</p><div class="btns"><button class="btn" onclick="location.hash='home';location.reload()">Tải lại</button></div></div></div>`}window.scrollTo(0,0);
  MAIN.forEach(m=>$('#tb-'+m).classList.toggle('on',m===v||(m==='scores'&&['dist','analysis','export','detail'].includes(v))));
@@ -1457,6 +1564,14 @@ const ACT={
  clsDel:()=>{const c=stuCls,n=S.students.filter(x=>(x.cls||'')===c).length;ask(`Xoá lớp ${c||'chưa xếp lớp'}?`,`${n} học sinh của lớp này sẽ bị xoá khỏi danh sách. Bảng điểm đã chấm vẫn giữ.`,'Xoá lớp',()=>{S.students=S.students.filter(x=>(x.cls||'')!==c);stuCls=null;save();render()},1)},
  clsRename:()=>{const c=stuCls;modal(`<h3>Đổi tên lớp ${esc(c||'')}</h3><input class="in" id="mNm" value="${esc(c)}" autocapitalize="characters"><div class="btns"><button class="btn ghost" data-act="mclose">Huỷ</button><button class="btn" id="mOk">Lưu</button></div>`);$('#mOk').onclick=()=>{const v=$('#mNm').value.trim().toUpperCase();if(!v)return;S.students.forEach(x=>{if((x.cls||'')===c)x.cls=v});S.exams.forEach(e=>{if(e.cls===c)e.cls=v});stuCls=v;save();closeModal();render()}},
  clsExam:()=>{editId=null;newExamCls=stuCls;go('newexam')},
+ openLogin:()=>openLogin(),trialMenu:()=>trialMenu(),openLoginM:()=>{closeModal();openLogin()},
+ srvSaveSecret:()=>{const v=$('#srvSecret').value.trim();lsSet(ADMS_KEY,v);admReload()},
+ srvLoad:()=>admReload(),
+ srvSet:a=>admAct('set',{deviceId:a.dataset.id,status:a.dataset.st}),
+ srvLockAcct:a=>ask('Khoá cả tài khoản?',`Mọi máy của "${a.dataset.a}" sẽ bị khoá.`,'Khoá',()=>admAct('setAccount',{account:a.dataset.a,status:'locked_soft'})),
+ srvHard:a=>ask('Khoá cứng máy này?','Máy đó sẽ bị khoá và XOÁ hết dữ liệu trên máy (không lấy lại được).','Khoá cứng',()=>admAct('set',{deviceId:a.dataset.id,status:'locked_hard'}),1),
+ srvDel:a=>ask('Xoá máy khỏi danh sách?','Máy sẽ không còn trong danh sách; nếu máy đó mở lại app sẽ được coi như máy mới.','Xoá',()=>admAct('del',{deviceId:a.dataset.id}),1),
+ srvCfg:()=>admAct('config',{trialDays:+$('#cfDays').value||30,maxDevices:+$('#cfMax').value||2,contact:$('#cfContact').value.trim()}),
  openExam:a=>{S.active=a.dataset.id;save();go('hub')},
  hubGo:a=>{const v=a.dataset.v,e=ex();if(v==='scan'){initAudio();go('scan');return}if(v==='students'){clsPick();return}go(v)},
  clsSet:a=>{const e=ex();e.cls=a.dataset.c;save();closeModal();stuCls=e.cls||null;if(a.dataset.open)go('students');else render();toast(e.cls?'Chấm lớp '+e.cls:'Chấm với tất cả học sinh')},
@@ -1591,9 +1706,10 @@ window.addEventListener('appinstalled',()=>{instEvt=null;toast('Đã cài QUMIRA
 try{if(window.top===window&&'serviceWorker' in navigator&&/^https?:$/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(x){}
 
 /* ---------- boot ---------- */
-load();licCheck().then(()=>{render();if(LIC.ok&&daysLeft(LIC.p)<=7)toast(`Tài khoản còn ${daysLeft(LIC.p)} ngày sử dụng`,3500)});
-setInterval(()=>{if(LIC.ok&&daysLeft(LIC.p)<=0){LIC.ok=false;LIC.why='expired';render()}},60000);
-window.TN={getS:()=>S,save:()=>save(),parseTnmJson,syMerge,syUnits,keysFromQR,qrTextsFromFiles,gbOpen,gbBuild,gbTarget,gbSheet,gbExport,reReadOne,readH,rowsOf,markedSheet,rectify,IDB,imgKey,parseStuAOA,stuPayloads,parseStuPayload,parseKeyAOA,keyPayload,parsePayload,analyze,TP,toCanvas,ex:()=>ex(),sheetCanvas,blankKey};
+load();(async()=>{await licCheck();gateProvisional();render();gateSync().then(()=>render()).catch(()=>{})})();
+setInterval(()=>{if(scanOn||document.hidden)return;const was=allowed();gateSync().then(()=>{if(allowed()!==was||GATE.state==='trial')render()})},6*60000);
+document.addEventListener('visibilitychange',()=>{if(document.hidden||scanOn||!GATE.checked)return;const was=allowed();gateSync().then(()=>{if(allowed()!==was)render()})});
+window.TN={getS:()=>S,save:()=>save(),_gate:()=>GATE,_allowed:()=>allowed(),gateRetry,openLogin,admAct,_srv:()=>srvDevices,parseTnmJson,syMerge,syUnits,keysFromQR,qrTextsFromFiles,gbOpen,gbBuild,gbTarget,gbSheet,gbExport,reReadOne,readH,rowsOf,markedSheet,rectify,IDB,imgKey,parseStuAOA,stuPayloads,parseStuPayload,parseKeyAOA,keyPayload,parsePayload,analyze,TP,toCanvas,ex:()=>ex(),sheetCanvas,blankKey};
 }
 </script>
 
