@@ -1,5 +1,5 @@
 /* QUMIRAI service worker — lưu app để mở được khi không có mạng */
-const CACHE='qumirai-1.76';
+const CACHE='qumirai-1.77';
 const SHELL=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./apple-touch-icon.png'];
 const LIBS=/(^|\.)(cdnjs\.cloudflare\.com|cdn\.jsdelivr\.net|unpkg\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)$/;
 const NAV_WAIT=4000; // mạng chậm quá 4 giây thì mở bản đã lưu, bản mới vẫn tải ngầm cho lần sau

@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1565e8">
+<meta name="theme-color" content="#0067c0">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="QUMIRAI"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script>try{if(window.top===window&&/^https?:$/.test(location.protocol)){const h=document.head;[['manifest','manifest.webmanifest'],['apple-touch-icon','apple-touch-icon.png'],['icon','icon-192.png'],['shortcut icon','favicon.png']].forEach(([r,u])=>{const l=document.createElement('link');l.rel=r;l.href=u;h.appendChild(l)})}}catch(e){}</script>
 <meta name="author" content="Phát triển bởi thầy Phan Đình Trung – THPT Chu Văn An, phường Bảo An, tỉnh Khánh Hòa">
-<meta name="version" content="1.76">
+<meta name="version" content="1.77">
 <meta name="description" content="QUMIRAI – AI Exam Scanner. Quét thông minh – Chấm chính xác – Phân tích toàn diện.">
 <meta name="copyright" content="© 2026 QUMIRAI — Phát triển bởi thầy Phan Đình Trung, Trường THPT Chu Văn An, phường Bảo An, tỉnh Khánh Hòa">
 <title>QUMIRAI – AI Exam Scanner</title>
@@ -312,6 +312,156 @@ button.ready{cursor:pointer;border:0}
 @media(min-height:860px){.tile{min-height:92px}.row4 button{min-height:72px}}
 
 .automode .steps{bottom:calc(108px + env(safe-area-inset-bottom))!important;gap:3px}.automode .steps div{font-size:0;line-height:0;padding-top:0;border-top-width:4px}
+
+/* ================= v1.77 · Windows 11 Fluent Design layer =================
+   Chỉ thay đổi giao diện: màu, bo góc, đổ bóng, Mica/Acrylic, chuyển động.
+   Không đổi cấu trúc HTML/chức năng. */
+:root{
+ --f-font:"Segoe UI Variable Text","Segoe UI Variable","Segoe UI","Be Vietnam Pro",system-ui,-apple-system,sans-serif;
+ --bg:#f3f6fb;--card:#ffffff;--ink:#1b1f27;--mute:#5c6675;--line:#e3e7ee;
+ --blue:#0067c0;--blue2:#00519c;--soft:#eef3fa;--ok:#0f7b0f;--bad:#c42b1c;--warn:#9d5d00;
+ --f-stroke:#0000000f;--f-stroke2:#00000029;--f-acc-l:#e6f1fb;
+ --f-sh1:0 1px 2px #0000000d,0 2px 6px #0000000a;--f-sh2:0 4px 12px #00000014,0 1px 3px #0000000f;--f-sh3:0 16px 40px #00000026,0 4px 12px #00000014;
+ --f-mica:#f3f6fbd9;--f-acr:#ffffffc7;--f-r:8px;--f-rc:12px;
+ --f-ease:cubic-bezier(.1,.9,.2,1);--f-link:#0067c0}
+@supports (color:light-dark(#fff,#000)){:root{
+ --bg:light-dark(#f3f6fb,#1c1f26);--card:light-dark(#ffffff,#272b33);--ink:light-dark(#1b1f27,#f2f4f8);--mute:light-dark(#5c6675,#a9b2c1);
+ --line:light-dark(#e3e7ee,#363b46);--soft:light-dark(#eef3fa,#2f3440);--blue:light-dark(#0067c0,#1f7fd6);--blue2:light-dark(#00519c,#1868b3);--f-link:light-dark(#0067c0,#6cb4f5);
+ --ok:light-dark(#0f7b0f,#6ccb5f);--bad:light-dark(#c42b1c,#ff99a4);--warn:light-dark(#9d5d00,#fce100);
+ --f-stroke:light-dark(#0000000f,#ffffff12);--f-stroke2:light-dark(#00000029,#ffffff1f);--f-acc-l:light-dark(#e6f1fb,#1f3247);
+ --f-mica:light-dark(#f3f6fbd9,#1c1f26d9);--f-acr:light-dark(#ffffffc7,#2b2f38c7);
+ --f-sh1:0 1px 2px light-dark(#0000000d,#0000004d),0 2px 6px light-dark(#0000000a,#00000033);
+ --f-sh2:0 4px 12px light-dark(#00000014,#00000059),0 1px 3px light-dark(#0000000f,#00000040)}}
+html,body{font-family:var(--f-font);font-size:15px;-webkit-font-smoothing:antialiased;
+ background:var(--bg);background-image:radial-gradient(1200px 600px at 100% -10%,light-dark(#dbe9fb,#1d2a3d) 0%,transparent 60%),radial-gradient(900px 500px at -10% 110%,light-dark(#e9eefa,#1e2230) 0%,transparent 60%);background-attachment:fixed}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px;box-shadow:0 0 0 4px var(--card)}
+::selection{background:#0067c040}
+
+/* ---- Thanh tiêu đề (Mica xanh) ---- */
+.top{background:linear-gradient(125deg,#0a74d4 0%,#0067c0 42%,#003e8a 100%);position:relative;overflow:hidden;border-radius:0 0 16px 16px;box-shadow:0 6px 22px #0050a033}
+.top::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(420px 180px at 85% -40%,#ffffff40,transparent 70%),radial-gradient(300px 160px at 0% 130%,#5ec8ff33,transparent 70%)}
+.top>*{position:relative}
+.top h1{font-weight:700;letter-spacing:-.3px}.top h1 b{color:#ffd84a}
+.logo{border-radius:10px;transform:none;box-shadow:0 4px 12px #00000033}
+.gear{border-radius:6px;transition:background .15s}.gear:hover{background:#ffffff1f}.gear:active{background:#ffffff14}
+.loginlink{border-radius:6px;background:#ffffff26;border:1px solid #ffffff33;transition:background .15s}.loginlink:hover{background:#ffffff38}
+.inst{border-radius:6px!important}
+.exam-pill{background:#ffffffd9;color:var(--ink);border:1px solid var(--f-stroke);border-radius:10px;box-shadow:var(--f-sh2);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6)}
+@supports (color:light-dark(#fff,#000)){.exam-pill{background:light-dark(#ffffffd9,#2b2f38d9)}}
+.exam-pill svg{color:var(--f-link)}
+/* thanh tiêu đề trang con — Acrylic */
+.sub{background:#0067c0e6;-webkit-backdrop-filter:blur(24px) saturate(1.5);backdrop-filter:blur(24px) saturate(1.5);box-shadow:0 1px 0 #ffffff1a inset,0 4px 16px #0050a026}
+.sub button{border-radius:6px;transition:background .15s}.sub button:hover{background:#ffffff1f}
+.sub h2{font-weight:600}
+.gbar{background:linear-gradient(90deg,#c47a00,#9d5d00)}.gbar button{border-radius:6px}
+
+/* ---- Thẻ & bảng (Card) ---- */
+.panel,.card,.excard,.hubt,.lk-card{background:var(--card);border:1px solid var(--f-stroke);box-shadow:var(--f-sh1)}
+.panel{border-radius:var(--f-rc)}.card{border-radius:var(--f-rc)}.excard,.hubt{border-radius:10px}
+.excard,.hubt{transition:box-shadow .2s var(--f-ease),transform .2s var(--f-ease),border-color .2s}
+@media (hover:hover){.excard:hover,.hubt:hover{box-shadow:var(--f-sh2);border-color:var(--f-stroke2)}.panel .row4 button:hover{background:var(--soft)}}
+.card h4,.ph b,.ph h3{font-weight:600}
+.ph a,.link{color:var(--f-link);font-weight:600}
+.ph a:hover,.link:hover{text-decoration:underline}
+.row4 button{border-radius:8px;transition:background .15s}
+.row4 button+button{border-left:1px solid var(--line)}
+.row4 button:active,.tile:active,.hubt:active,.excard:active{transform:scale(.97)}
+/* khối Camera nổi bật */
+.hero{border:1px solid light-dark(#bcd7f3,#2c4a6b);background:linear-gradient(150deg,var(--card) 30%,var(--f-acc-l));border-radius:var(--f-rc);box-shadow:0 1px 0 #ffffff inset,var(--f-sh2)}
+@supports not (color:light-dark(#fff,#000)){.hero{border-color:#bcd7f3}}
+.chip{background:var(--blue);border-radius:4px;letter-spacing:.3px}
+.ready{border-radius:4px}
+.go{border-radius:8px;background:linear-gradient(180deg,#1a80dc,#0067c0);box-shadow:0 1px 0 #ffffff33 inset,0 -1px 0 #00000033 inset,0 4px 14px #0067c055;transition:filter .15s,transform .1s}
+.go:hover{filter:brightness(1.07)}.go:active{transform:scale(.985);filter:brightness(.95)}
+/* 4 ô chức năng: nền dịu, viền mảnh */
+.tile{border:1px solid var(--f-stroke);border-radius:10px;box-shadow:var(--f-sh1);transition:box-shadow .2s var(--f-ease),transform .15s var(--f-ease)}
+@media (hover:hover){.tile:hover{box-shadow:var(--f-sh2);transform:translateY(-1px)}}
+.t1{background:linear-gradient(160deg,var(--card),light-dark(#ece9fb,#2a2944))}.t2{background:linear-gradient(160deg,var(--card),light-dark(#fbe9ee,#3a2730))}
+.t3{background:linear-gradient(160deg,var(--card),light-dark(#e3f6ed,#1d3a2e))}.t4{background:linear-gradient(160deg,var(--card),light-dark(#fdf0de,#3a3020))}
+.banner{border-radius:var(--f-rc);border:1px solid var(--f-stroke);background:linear-gradient(100deg,var(--f-acc-l),var(--card))}
+
+/* ---- Nút (Button) ---- */
+.btn{border-radius:6px;font-weight:600;background:var(--blue);border:1px solid #ffffff14;box-shadow:0 -1px 0 #00000040 inset;transition:background .12s,filter .12s,transform .08s}
+@media (hover:hover){.btn:hover{filter:brightness(1.08)}}
+.btn:active{filter:brightness(.92);transform:scale(.985)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:0 -1px 0 var(--f-stroke2) inset}
+@media (hover:hover){.btn.ghost:hover{filter:none;background:var(--soft)}}
+.btn[disabled],.btn:disabled{opacity:.45;filter:saturate(.3)}
+.btn.sm{border-radius:5px}
+.mx{border-radius:6px;background:transparent;border:0;transition:background .12s}.mx:hover{background:var(--soft)}
+.tag{border-radius:4px}
+.kb{border-radius:6px;border:1px solid var(--line);transition:background .12s,border-color .12s,color .12s}
+.kb.on{background:var(--blue);border-color:var(--blue)}
+.tf{border-radius:6px;border-width:1px;transition:background .12s}
+.seg button,.codechips button,.rseg button{border-radius:6px}
+.opt{border-radius:8px;border-width:1px;transition:border-color .15s,background .15s}
+.opt:has(input:checked){border-color:var(--blue);background:var(--f-acc-l);box-shadow:0 0 0 1px var(--blue) inset}
+input[type=checkbox],input[type=radio]{accent-color:var(--blue)}
+
+/* ---- Ô nhập (TextBox) — gạch chân màu nhấn khi chọn ---- */
+label.f input,label.f select,label.f textarea,input.in,textarea.in,select.in{border-radius:6px;border:1px solid var(--line);border-bottom-color:light-dark(#8a94a3,#7c8696);background:var(--card);transition:border-color .12s,box-shadow .12s}
+@supports not (color:light-dark(#fff,#000)){label.f input,label.f select,label.f textarea,input.in,textarea.in,select.in{border-bottom-color:#8a94a3}}
+label.f input:focus,label.f select:focus,label.f textarea:focus,input.in:focus,textarea.in:focus,select.in:focus{outline:none;border-bottom-color:var(--blue);box-shadow:0 1px 0 0 var(--blue)}
+.hlw .hl{border-radius:6px;background:var(--card)}
+
+/* ---- Danh sách & bảng dữ liệu (DataGrid) ---- */
+.list li{border-bottom:1px solid var(--line);border-radius:0;transition:background .12s}
+@media (hover:hover){.list li[data-act]:hover,.list li:has(>[data-act]):hover,tr[data-act]:hover{background:var(--soft)}}
+table{border-radius:8px;overflow:hidden}
+th{background:var(--soft);color:var(--mute);font-weight:600;font-size:12.5px;text-transform:none}
+th:first-child{border-top-left-radius:6px}th:last-child{border-top-right-radius:6px}
+tbody tr:nth-child(even) td{background:light-dark(#fafbfd,#2a2e37)}
+.score{font-variant-numeric:tabular-nums}
+.rtabs{background:var(--f-mica);-webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5)}
+.rtabs button{border-bottom:3px solid transparent;transition:color .15s}
+.rtabs button.on{color:var(--ink)}
+
+/* ---- Thanh điều hướng: Acrylic (điện thoại) / NavigationView (máy tính) ---- */
+.tabs{background:var(--f-acr);-webkit-backdrop-filter:blur(30px) saturate(1.8);backdrop-filter:blur(30px) saturate(1.8);border-top:1px solid var(--f-stroke);box-shadow:0 -4px 18px #00000010}
+.tabs button{transition:color .15s}.tabs button.on{color:var(--f-link)}
+.tabs button svg{transition:transform .25s var(--f-ease)}
+.tabs button.on svg{transform:translateY(-1px) scale(1.06)}
+.tabs button.on::after{width:18px;height:3px;border-radius:3px;bottom:3px;background:var(--blue);animation:fpill .3s var(--f-ease)}
+@keyframes fpill{from{width:0;opacity:0}to{width:18px;opacity:1}}
+@media (min-width:960px){
+ .tabs{background:var(--f-mica);border-right:1px solid var(--f-stroke);border-top:0;box-shadow:none;padding:18px 10px}
+ .tabs::before{color:var(--ink);font-size:20px;font-weight:700;letter-spacing:.2px;padding:6px 14px 18px;background:linear-gradient(90deg,#0067c0,#2b8de0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+ .tabs button{color:var(--ink);border-radius:6px;padding:10px 14px;font-size:14.5px;position:relative}
+ .tabs button:hover{background:light-dark(#0000000a,#ffffff0f)}
+ .tabs button.on{background:light-dark(#0000000d,#ffffff14);color:var(--ink);font-weight:600}
+ .tabs button.on::after{display:block;content:"";position:absolute;left:0;top:50%;bottom:auto;transform:translateY(-50%);width:3px;height:18px;border-radius:3px;background:var(--blue);animation:fbar .3s var(--f-ease)}
+ .tabs button.on svg{color:var(--f-link)}
+ .top{border-radius:0 0 16px 16px}
+ .sub{border-radius:0 0 12px 12px}
+ .modal{padding-left:228px}
+}
+@keyframes fbar{from{height:0}to{height:18px}}
+
+/* ---- Hộp thoại (ContentDialog) ---- */
+.modal{background:light-dark(#0000004d,#00000080);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);animation:ffade .18s ease-out}
+@supports not (color:light-dark(#fff,#000)){.modal{background:#0000004d}}
+.modal>div{background:var(--card);border:1px solid var(--f-stroke2);border-radius:14px 14px 0 0;box-shadow:var(--f-sh3);animation:fsheet .32s var(--f-ease)}
+.modal h3{font-weight:600;font-size:19px}
+.modal>div>.btns:last-child{background:var(--soft);margin:14px -16px calc(-18px - env(safe-area-inset-bottom));padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+@media (min-width:600px){.modal{align-items:center}.modal>div{border-radius:12px;animation:fdlg .26s var(--f-ease)}.modal>div>.btns:last-child{margin-bottom:-18px;padding-bottom:14px;border-radius:0 0 12px 12px}}
+@keyframes ffade{from{opacity:0}to{opacity:1}}
+@keyframes fsheet{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+@keyframes fdlg{from{transform:scale(1.05);opacity:0}to{transform:none;opacity:1}}
+
+/* ---- Thông báo nhanh, thanh cập nhật ---- */
+.toast{background:light-dark(#ffffffe6,#2b2f38e6);color:var(--ink);border:1px solid var(--f-stroke2);border-radius:8px;box-shadow:var(--f-sh3);-webkit-backdrop-filter:blur(30px) saturate(1.8);backdrop-filter:blur(30px) saturate(1.8);animation:ftoast .3s var(--f-ease)}
+@supports not (color:light-dark(#fff,#000)){.toast{background:#ffffffeb;color:#1b1f27}}
+@keyframes ftoast{from{transform:translate(-50%,10px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+.updbar{background:#0067c0;border-radius:8px;box-shadow:var(--f-sh3)}.updbar button{border-radius:6px}.updbar button:not(.x){color:#0067c0}
+
+/* ---- Chuyển trang mượt ---- */
+#app>.wrap,#app>section,.wrap{animation:fpage .32s var(--f-ease)}
+@keyframes fpage{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.gd{border-radius:10px;border:1px solid var(--f-stroke)}
+.lk-card{border-radius:12px;box-shadow:var(--f-sh3)}
+.lk{font-family:var(--f-font)}
+.rv-card{border-radius:12px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -381,8 +531,8 @@ const r2=n=>Math.round((+n||0)*100)/100;
 const fmt=n=>r2(n).toLocaleString('vi-VN',{maximumFractionDigits:2});
 const uid=()=>Math.random().toString(36).slice(2,10);
 const toast=(m,ms=2200)=>{const t=$('#toast');t.innerHTML=`<div class="toast">${esc(m)}</div>`;clearTimeout(toast.t);toast.t=setTimeout(()=>t.innerHTML='',ms)};
-const APP='QUMIRAI',APP_FULL='QUMIRAI – AI Exam Scanner',SLOGAN='Quét thông minh – Chấm chính xác – Phân tích toàn diện',VER='1.76',VER_DATE='27/11/2026',
- CHANGES=[['1.76','Nhập danh sách học sinh: SBD và tên lớp giữ nguyên đúng như cột trong file (không tự sửa, không tự thêm số 0); tên lớp giữ nguyên như file (VD “12 HT”)'],['1.75','Nhập danh sách học sinh: đọc đúng SBD khi ô Excel định dạng "08"000000 nhưng đã gõ đủ 8 số (VD 8000001 → 08000001); báo rõ dòng lỗi khi không đọc được'],['1.74','Sửa lỗi màn hình quét bị đứng sau khi chấm 1–2 bài (khi rời màn hình quét lúc đang xem kết quả); tự phục hồi nếu quét bị kẹt. Phần II: ý lỗi ghi “L” màu vàng (VD c) L) và chuỗi đáp án ghi ĐĐLS với chữ L màu vàng; gõ L vào chuỗi để đánh lỗi ý. Nút Cập nhật kiểm tra phiên bản trên máy chủ và tải đúng bản mới (sửa lỗi iPhone không cập nhật); tự báo khi có bản mới'],['1.73','Quét: chấm xong hiện màn hình kết quả gọn trên một màn hình (ảnh phiếu đã chấm + điểm, tên, SBD, mã đề, điểm từng phần) với 4 nút Lưu · Chỉnh sửa · Chấm lại · Đóng; trùng SBD (chấm lại phiếu đã chấm) hiện kết quả lần trước và lần này cạnh nhau, chỉ ra chỗ khác, nút Lưu thay đổi'],['1.72','Quét nhanh và chính xác hơn: chỉ phân tích vùng khung phiếu ở độ phân giải gốc của camera (trước đây thu nhỏ cả khung hình nên ô định vị và ô tô bị nhoè); nhận ô định vị khi ảnh hơi mờ, giấy xám; ngưỡng ô tô tự điều chỉnh theo độ đậm của từng phiếu nên nhận được ô tô bút chì nhạt; khung ngắm lớn hơn, dòng hướng dẫn chuyển xuống dưới không che 2 ô trên'],['1.71','Sửa lỗi file điểm lớp (mẫu Sở) sau khi ghi điểm hiện SBD toàn số 0: cột STT, Tên lớp, SBD, Họ tên được giữ nguyên giá trị như file gốc (không bị tính lại thành 0); không ép tính lại công thức khi file có liên kết tới file Excel khác'],['1.70','Quét: chấm xong chỉ hiện dòng điểm nhỏ, không che màn hình (chạm để xem ảnh phiếu); chỉ khi lỗi mới hiện bảng báo lỗi đầy đủ với hàng nút Lưu · Chỉnh sửa · Chấm lại · Đóng; camera tràn màn hình, viền xung quanh trong suốt; ô tô 2 ô trở lên trên cùng một câu/cột (kể cả SBD, mã đề) được khoanh đỏ và nối bằng đoạn thẳng đỏ, giữ cả trong ảnh đã lưu; ô In phiếu đổi thành Phiếu chấm (chọn mẫu phiếu)'],['1.69','Phần II: mỗi ý chạm xoay vòng 4 lựa chọn Đ → S → Lỗi → – (bỏ nút bật/tắt chế độ đánh dấu ý lỗi)'],['1.68','Phần II (Đúng/Sai): đánh dấu lỗi từng ý — bật “Đánh dấu ý lỗi” rồi chạm vào ý bị lỗi (chuyển màu đỏ), ý đó được tính đúng cho mọi học sinh của mã đề; nút Lỗi cuối câu vẫn tính trọn điểm cả câu, không cộng trùng với ý lỗi. Điểm cập nhật ngay; giữ khi lưu, tải lại, xuất Excel, mã QR (Excel ghi X vào vị trí ý lỗi, VD ĐXĐS)'],['1.67','Nút bánh răng mở menu Cài đặt: Hướng dẫn sử dụng, Cập nhật phiên bản mới; tài khoản Quản trị có thêm Quản trị tài khoản, Đồng bộ điện thoại và máy tính. Tài khoản thường không thấy và không vào được chức năng quản trị, đồng bộ. SBD luôn giữ đủ số 0 ở đầu (6 hoặc 8 số) khi nhập Excel/CSV, lưu, quét, xuất CSV và sao chép bảng điểm; cảnh báo khi file Excel đã làm mất số 0 ở đầu SBD'],['1.66','Nhập danh sách từ Excel giữ đúng SBD như hiển thị trong file (VD ô ghi 08121212 dù giá trị là 121212 có định dạng số) — SBD 8 số không còn bị cắt thành 6 số; nhập lại file tự sửa SBD cũ bị thiếu số; ghi điểm vào file lớp khớp đúng SBD; bảng xác nhận nhập hiện số học sinh từng sheet để tránh nhập nhầm sheet'],['1.65','Chạy ổn hơn trên iPhone và điện thoại cũ: giao diện hiển thị đúng màu trên iOS 15–17.4 và Chrome cũ; xuất file trên iPhone mở bảng Chia sẻ để Lưu vào Tệp/gửi Zalo; quét và chấm hàng loạt tốn ít bộ nhớ hơn, không còn tự tải lại giữa chừng; cảnh báo khi mở bằng tab Safari (dữ liệu tách riêng với app đã cài); nhắc sao lưu định kỳ; thêm màn Kiểm tra máy (Tài khoản → Kiểm tra máy)'],['1.64','Sửa lỗi: giao diện mất định dạng trên màn hình cao/máy tính; ẩn mẫu phiếu phụ khỏi danh sách chọn; khoanh đúng chỗ Phần III phiếu 4 số bản in khác; nhận ra tô cả Đ và S / tô nhiều ô (không còn báo nhầm là bỏ trống); bản dùng thử không còn tự làm mới mất dữ liệu đang gõ; sửa nút Nhập mã gia hạn; Xoá ảnh phiếu không xoá nhầm file đề và file điểm lớp; chú thích màu thống nhất (vàng = đáp án đúng); hướng dẫn cập nhật theo app; Lưu kết quả và đổi mẫu phiếu cảnh báo khi trùng SBD/mã đề; file điểm mẫu Sở mở trong Excel không báo lỗi; tăng bảo mật trang Quản trị; ứng dụng mở nhanh hơn khi mạng chập chờn'],['1.63','Nhận được phiếu 4 số bản in khác (mẫu có ô Điểm, ô định vị lệch so với mẫu cũ): app tự nhận ra đang chấm mẫu phiếu nào; tự căn từng khối ô tô khi giấy cong hoặc máy in co giãn; chọn đúng 4 ô góc, không nhầm ô tô thành ô góc; nhận diện khi quét nhanh hơn nhiều; thanh tiến trình gọn, không che 4 góc dưới'],['1.62','Nhận diện 4 góc chắc hơn trên iPhone: chịu được phiếu in lệch ô định vị (chấm trực tiếp và chấm bằng ảnh đều nhận phiếu tốt hơn); không nhầm sang nền bàn vân đá/gỗ'],['1.61','Tăng độ phân giải nhận diện khi quét trực tiếp để định vị ổn định hơn trên điện thoại'],['1.60','Sửa nút Hướng dẫn bị che ở trang Tài khoản'],['1.59','Danh sách máy thu gọn (bấm tam giác để mở); mọi cửa sổ có nút đóng ✕; thẻ điểm có nút đóng và tự ẩn nhanh hơn; sửa chữ Hướng dẫn bị che'],['1.58','Trang kỳ thi có nút Chấm từ ảnh/PDF/hàng loạt; nút "?" đổi thành "Hướng dẫn"; nút Cập nhật phiên bản ở trang Tài khoản'],['1.57','Tự chụp chịu được nhấp nháy 3↔4 góc (iPhone/phiếu nhiều ô mép dễ tự chụp hơn)'],['1.56','Nút "Tải bản mới nhất" trong Giới thiệu — làm mới app lên bản mới, không mất dữ liệu'],['1.55','Hiện nút chụp tròn để chụp tay: máy khó tự nhận 4 góc (iPhone) vẫn chấm được'],['1.54','Nút phóng to/thu nhỏ (zoom) camera khi quét'],['1.53','Luôn hiện ô dán Google Client ID cho đồng bộ'],['1.52','Trang chủ gọn hơn, ẩn thanh cuộn'],['1.43','Ảnh chấm: câu/cột tô 2 ô (câu 2 phương án, SBD/trả lời ngắn 2 số, đúng-sai tô cả Đ và S) được khoanh đỏ và nối bằng đoạn thẳng; banner đầu trang gọn và cân lề hơn'],['1.42','Nạp link máy chủ tài khoản mới'],['1.41','Icon ứng dụng mới; icon Quản lý kỳ thi (chồng sách) khác với mã đề; Lịch sử đánh dấu bài đã chỉnh sửa; nút Kiểm tra kết nối máy chủ; bỏ (.xlsx) ở nút Xuất Excel'],['1.40','Gọi máy chủ bằng GET cho ổn định; nút Đăng nhập sát bánh răng; bỏ thanh kỳ thi ở trang chủ, ô In phiếu đổi thành Quản lý kỳ thi; sửa tiêu đề trang Kết quả bị che'],['1.39','Bỏ thanh dùng thử trên ảnh, thay bằng nút Đăng nhập cạnh bánh răng (Dùng thử / Đăng ký hiện liên hệ); trang Tài khoản có mũi tên quay về; icon cài đặt mới; sửa dòng tác giả'],['1.38','Máy chủ tài khoản: tự dùng thử theo máy, đếm số máy mỗi tài khoản, chờ duyệt, khoá từ xa (mềm/cứng); trang Quản trị quản lý máy và thiết lập dùng thử'],['1.37','Chuyển Xoá tất cả mã đề vào hộp Chọn mã (có Chọn tất cả); dòng tác giả trang chủ: GV Phan Đình Trung in đậm, kèm trường và tỉnh'],['1.36','Sửa lỗi trang trắng trên máy tính khi bật đồng bộ; giao diện máy tính riêng (menu bên trái, bố cục rộng); hướng dẫn 5 bước bằng hình; chọn lớp chấm bằng ô Học sinh; phối màu mới'],['1.35','Xoá mã đề ngay ở Nhập đáp án (mã đang xem, chọn nhiều mã, tất cả); chọn lại lớp chấm trong trang kỳ kiểm tra; trang chủ: Mẫu phiếu TN thay Nhập đáp án'],['1.34','Bảng điểm gọn đẹp (thẻ từng học sinh, điểm tô màu); bỏ danh sách chưa có bài; ảnh phiếu: câu không làm khung trắng, SBD và mã đề khoanh xanh dương'],['1.33','Xem kết quả: chạm học sinh hiện ảnh phiếu khoanh xanh/đỏ/vàng; khi quét báo trùng SBD, bỏ trống, tô nhiều ô với 3 lựa chọn Sửa · Chấm lại · Giữ'],['1.32','Hướng dẫn: viết lại Quy trình chấm bằng camera'],['1.31','Quét nhanh hơn nhiều: bỏ nút chụp và nút Tự chấm — 4 chấm đen vào 4 ô là tự chấm; hiện ảnh phiếu khoanh đúng/sai ngay sau khi chấm, chạm để phóng to'],['1.30','Đọc phiếu chuẩn hơn: bù bóng đổ/ánh sáng từng ô, nhận ô tô bút chì nhạt; 4 ô định vị to gấp đôi; đủ 4 ô giữ ~1 giây là tự chụp ảnh nét và chấm'],['1.29','Quét: 4 ô định vị trong suốt, 4 chấm đen vào đủ 4 ô là tự chụp và chấm; không phủ màu lên bài'],['1.28','Định vị 4 góc khi quét: 4 ô ngắm trên màn hình, ô chuyển xanh khi khớp; nhận diện 4 góc chắc hơn (đối chiếu 22 ô định vị phụ), không nhầm khi nền có giấy tờ khác'],['1.27','Gắn sẵn Google Client ID: bấm Kết nối Google Drive là đồng bộ được'],['1.26','Đồng bộ máy tính ↔ điện thoại qua Google Drive; quét QR đáp án bằng camera, nhận mã QR TNMaker và file Word'],['1.25','Nhập DS học sinh theo mẫu Sở (nhiều sheet/lớp, trùng SBD giữa các lớp); ghi điểm vào đúng cột KTTX/GKI/CKI theo tên kỳ; file mẫu mới'],['1.24','Trang kỳ kiểm tra gọn: chỉ tên kỳ, nút Quét nổi bật, 6 ô nhỏ; bỏ Tạo đề thi'],['1.23','Quản lý kỳ kiểm tra: mỗi kỳ có trang 8 chức năng; lưu file đề; sửa bài làm; chấm lại / đọc lại ảnh phiếu; sửa học sinh'],['1.22','Danh sách học sinh theo lớp (bấm lớp để xem); tạo kỳ thi chọn lớp chấm bằng ô mũi tên'],['1.21','Xoá hàng loạt: mã đề, bài đã chấm, ảnh phiếu, danh sách học sinh, kỳ thi, tài khoản đã cấp'],['1.20','Đáp án Excel theo mẫu bảng dọc: cột Phần, cột Câu\\Mã Đề, mỗi mã đề một cột; file mẫu xuất cùng dạng'],['1.19','Tài khoản: đăng nhập bằng mã kích hoạt có hạn dùng; quản trị viên cấp/gia hạn tài khoản; hết hạn khoá app'],['1.18','Cài được như app: biểu tượng riêng, mở toàn màn hình, dùng khi mất mạng; nút Cài app'],['1.17','Camera: xem trực tiếp, nút chụp – chụp lại – dùng ảnh, báo lỗi quyền/camera bận/không hỗ trợ; slogan một dòng'],['1.16','Đổi tên thành QUMIRAI – AI Exam Scanner, thêm khẩu hiệu'],['1.15','Đổi tên app; ghi số phiên bản, tăng mỗi lần cập nhật'],['1.14','Chấm theo thư mục ảnh/PDF; cập nhật thư mục chỉ chấm file mới'],['1.13','Bấm quét là mở camera ngay; cảnh báo SBD tô sai, trùng, ngoài danh sách'],['1.12','Xuất điểm theo danh sách học sinh; ảnh phiếu khoanh màu có ghi điểm'],['1.11','Mã đề nhập ở bước đáp án; nút Lỗi cộng điểm câu lỗi đề'],['1.10','Nhập danh sách học sinh từ Excel, file mẫu, mã QR'],['1.9','Thông tin tác giả'],['1.8','Nhập đáp án từ Excel, file mẫu, mã QR'],['1.7','Giao diện như mẫu, thao tác cô đọng'],['1.6','Thử với phiếu mẫu; tạo kỳ thi 3 bước'],['1.5','Hướng dẫn sử dụng'],['1.4','Chấm theo 2 mẫu phiếu BGD 2025: 3 phần, điểm từng phần'],['1.3','Giao diện gọn trên điện thoại'],['1.0','Bản đầu tiên']],
+const APP='QUMIRAI',APP_FULL='QUMIRAI – AI Exam Scanner',SLOGAN='Quét thông minh – Chấm chính xác – Phân tích toàn diện',VER='1.77',VER_DATE='27/11/2026',
+ CHANGES=[['1.77','Giao diện mới theo phong cách Windows 11 (Fluent Design): tông xanh dương – trắng – xám nhạt, bo góc mềm, đổ bóng nhẹ, hiệu ứng kính mờ Mica/Acrylic cho thanh tiêu đề, thanh menu, hộp thoại; nút, ô nhập, bảng dữ liệu đồng bộ; chuyển trang mượt; menu bên trái kiểu Windows trên máy tính. Giữ nguyên mọi chức năng và dữ liệu'],['1.76','Nhập danh sách học sinh: SBD và tên lớp giữ nguyên đúng như cột trong file (không tự sửa, không tự thêm số 0); tên lớp giữ nguyên như file (VD “12 HT”)'],['1.75','Nhập danh sách học sinh: đọc đúng SBD khi ô Excel định dạng "08"000000 nhưng đã gõ đủ 8 số (VD 8000001 → 08000001); báo rõ dòng lỗi khi không đọc được'],['1.74','Sửa lỗi màn hình quét bị đứng sau khi chấm 1–2 bài (khi rời màn hình quét lúc đang xem kết quả); tự phục hồi nếu quét bị kẹt. Phần II: ý lỗi ghi “L” màu vàng (VD c) L) và chuỗi đáp án ghi ĐĐLS với chữ L màu vàng; gõ L vào chuỗi để đánh lỗi ý. Nút Cập nhật kiểm tra phiên bản trên máy chủ và tải đúng bản mới (sửa lỗi iPhone không cập nhật); tự báo khi có bản mới'],['1.73','Quét: chấm xong hiện màn hình kết quả gọn trên một màn hình (ảnh phiếu đã chấm + điểm, tên, SBD, mã đề, điểm từng phần) với 4 nút Lưu · Chỉnh sửa · Chấm lại · Đóng; trùng SBD (chấm lại phiếu đã chấm) hiện kết quả lần trước và lần này cạnh nhau, chỉ ra chỗ khác, nút Lưu thay đổi'],['1.72','Quét nhanh và chính xác hơn: chỉ phân tích vùng khung phiếu ở độ phân giải gốc của camera (trước đây thu nhỏ cả khung hình nên ô định vị và ô tô bị nhoè); nhận ô định vị khi ảnh hơi mờ, giấy xám; ngưỡng ô tô tự điều chỉnh theo độ đậm của từng phiếu nên nhận được ô tô bút chì nhạt; khung ngắm lớn hơn, dòng hướng dẫn chuyển xuống dưới không che 2 ô trên'],['1.71','Sửa lỗi file điểm lớp (mẫu Sở) sau khi ghi điểm hiện SBD toàn số 0: cột STT, Tên lớp, SBD, Họ tên được giữ nguyên giá trị như file gốc (không bị tính lại thành 0); không ép tính lại công thức khi file có liên kết tới file Excel khác'],['1.70','Quét: chấm xong chỉ hiện dòng điểm nhỏ, không che màn hình (chạm để xem ảnh phiếu); chỉ khi lỗi mới hiện bảng báo lỗi đầy đủ với hàng nút Lưu · Chỉnh sửa · Chấm lại · Đóng; camera tràn màn hình, viền xung quanh trong suốt; ô tô 2 ô trở lên trên cùng một câu/cột (kể cả SBD, mã đề) được khoanh đỏ và nối bằng đoạn thẳng đỏ, giữ cả trong ảnh đã lưu; ô In phiếu đổi thành Phiếu chấm (chọn mẫu phiếu)'],['1.69','Phần II: mỗi ý chạm xoay vòng 4 lựa chọn Đ → S → Lỗi → – (bỏ nút bật/tắt chế độ đánh dấu ý lỗi)'],['1.68','Phần II (Đúng/Sai): đánh dấu lỗi từng ý — bật “Đánh dấu ý lỗi” rồi chạm vào ý bị lỗi (chuyển màu đỏ), ý đó được tính đúng cho mọi học sinh của mã đề; nút Lỗi cuối câu vẫn tính trọn điểm cả câu, không cộng trùng với ý lỗi. Điểm cập nhật ngay; giữ khi lưu, tải lại, xuất Excel, mã QR (Excel ghi X vào vị trí ý lỗi, VD ĐXĐS)'],['1.67','Nút bánh răng mở menu Cài đặt: Hướng dẫn sử dụng, Cập nhật phiên bản mới; tài khoản Quản trị có thêm Quản trị tài khoản, Đồng bộ điện thoại và máy tính. Tài khoản thường không thấy và không vào được chức năng quản trị, đồng bộ. SBD luôn giữ đủ số 0 ở đầu (6 hoặc 8 số) khi nhập Excel/CSV, lưu, quét, xuất CSV và sao chép bảng điểm; cảnh báo khi file Excel đã làm mất số 0 ở đầu SBD'],['1.66','Nhập danh sách từ Excel giữ đúng SBD như hiển thị trong file (VD ô ghi 08121212 dù giá trị là 121212 có định dạng số) — SBD 8 số không còn bị cắt thành 6 số; nhập lại file tự sửa SBD cũ bị thiếu số; ghi điểm vào file lớp khớp đúng SBD; bảng xác nhận nhập hiện số học sinh từng sheet để tránh nhập nhầm sheet'],['1.65','Chạy ổn hơn trên iPhone và điện thoại cũ: giao diện hiển thị đúng màu trên iOS 15–17.4 và Chrome cũ; xuất file trên iPhone mở bảng Chia sẻ để Lưu vào Tệp/gửi Zalo; quét và chấm hàng loạt tốn ít bộ nhớ hơn, không còn tự tải lại giữa chừng; cảnh báo khi mở bằng tab Safari (dữ liệu tách riêng với app đã cài); nhắc sao lưu định kỳ; thêm màn Kiểm tra máy (Tài khoản → Kiểm tra máy)'],['1.64','Sửa lỗi: giao diện mất định dạng trên màn hình cao/máy tính; ẩn mẫu phiếu phụ khỏi danh sách chọn; khoanh đúng chỗ Phần III phiếu 4 số bản in khác; nhận ra tô cả Đ và S / tô nhiều ô (không còn báo nhầm là bỏ trống); bản dùng thử không còn tự làm mới mất dữ liệu đang gõ; sửa nút Nhập mã gia hạn; Xoá ảnh phiếu không xoá nhầm file đề và file điểm lớp; chú thích màu thống nhất (vàng = đáp án đúng); hướng dẫn cập nhật theo app; Lưu kết quả và đổi mẫu phiếu cảnh báo khi trùng SBD/mã đề; file điểm mẫu Sở mở trong Excel không báo lỗi; tăng bảo mật trang Quản trị; ứng dụng mở nhanh hơn khi mạng chập chờn'],['1.63','Nhận được phiếu 4 số bản in khác (mẫu có ô Điểm, ô định vị lệch so với mẫu cũ): app tự nhận ra đang chấm mẫu phiếu nào; tự căn từng khối ô tô khi giấy cong hoặc máy in co giãn; chọn đúng 4 ô góc, không nhầm ô tô thành ô góc; nhận diện khi quét nhanh hơn nhiều; thanh tiến trình gọn, không che 4 góc dưới'],['1.62','Nhận diện 4 góc chắc hơn trên iPhone: chịu được phiếu in lệch ô định vị (chấm trực tiếp và chấm bằng ảnh đều nhận phiếu tốt hơn); không nhầm sang nền bàn vân đá/gỗ'],['1.61','Tăng độ phân giải nhận diện khi quét trực tiếp để định vị ổn định hơn trên điện thoại'],['1.60','Sửa nút Hướng dẫn bị che ở trang Tài khoản'],['1.59','Danh sách máy thu gọn (bấm tam giác để mở); mọi cửa sổ có nút đóng ✕; thẻ điểm có nút đóng và tự ẩn nhanh hơn; sửa chữ Hướng dẫn bị che'],['1.58','Trang kỳ thi có nút Chấm từ ảnh/PDF/hàng loạt; nút "?" đổi thành "Hướng dẫn"; nút Cập nhật phiên bản ở trang Tài khoản'],['1.57','Tự chụp chịu được nhấp nháy 3↔4 góc (iPhone/phiếu nhiều ô mép dễ tự chụp hơn)'],['1.56','Nút "Tải bản mới nhất" trong Giới thiệu — làm mới app lên bản mới, không mất dữ liệu'],['1.55','Hiện nút chụp tròn để chụp tay: máy khó tự nhận 4 góc (iPhone) vẫn chấm được'],['1.54','Nút phóng to/thu nhỏ (zoom) camera khi quét'],['1.53','Luôn hiện ô dán Google Client ID cho đồng bộ'],['1.52','Trang chủ gọn hơn, ẩn thanh cuộn'],['1.43','Ảnh chấm: câu/cột tô 2 ô (câu 2 phương án, SBD/trả lời ngắn 2 số, đúng-sai tô cả Đ và S) được khoanh đỏ và nối bằng đoạn thẳng; banner đầu trang gọn và cân lề hơn'],['1.42','Nạp link máy chủ tài khoản mới'],['1.41','Icon ứng dụng mới; icon Quản lý kỳ thi (chồng sách) khác với mã đề; Lịch sử đánh dấu bài đã chỉnh sửa; nút Kiểm tra kết nối máy chủ; bỏ (.xlsx) ở nút Xuất Excel'],['1.40','Gọi máy chủ bằng GET cho ổn định; nút Đăng nhập sát bánh răng; bỏ thanh kỳ thi ở trang chủ, ô In phiếu đổi thành Quản lý kỳ thi; sửa tiêu đề trang Kết quả bị che'],['1.39','Bỏ thanh dùng thử trên ảnh, thay bằng nút Đăng nhập cạnh bánh răng (Dùng thử / Đăng ký hiện liên hệ); trang Tài khoản có mũi tên quay về; icon cài đặt mới; sửa dòng tác giả'],['1.38','Máy chủ tài khoản: tự dùng thử theo máy, đếm số máy mỗi tài khoản, chờ duyệt, khoá từ xa (mềm/cứng); trang Quản trị quản lý máy và thiết lập dùng thử'],['1.37','Chuyển Xoá tất cả mã đề vào hộp Chọn mã (có Chọn tất cả); dòng tác giả trang chủ: GV Phan Đình Trung in đậm, kèm trường và tỉnh'],['1.36','Sửa lỗi trang trắng trên máy tính khi bật đồng bộ; giao diện máy tính riêng (menu bên trái, bố cục rộng); hướng dẫn 5 bước bằng hình; chọn lớp chấm bằng ô Học sinh; phối màu mới'],['1.35','Xoá mã đề ngay ở Nhập đáp án (mã đang xem, chọn nhiều mã, tất cả); chọn lại lớp chấm trong trang kỳ kiểm tra; trang chủ: Mẫu phiếu TN thay Nhập đáp án'],['1.34','Bảng điểm gọn đẹp (thẻ từng học sinh, điểm tô màu); bỏ danh sách chưa có bài; ảnh phiếu: câu không làm khung trắng, SBD và mã đề khoanh xanh dương'],['1.33','Xem kết quả: chạm học sinh hiện ảnh phiếu khoanh xanh/đỏ/vàng; khi quét báo trùng SBD, bỏ trống, tô nhiều ô với 3 lựa chọn Sửa · Chấm lại · Giữ'],['1.32','Hướng dẫn: viết lại Quy trình chấm bằng camera'],['1.31','Quét nhanh hơn nhiều: bỏ nút chụp và nút Tự chấm — 4 chấm đen vào 4 ô là tự chấm; hiện ảnh phiếu khoanh đúng/sai ngay sau khi chấm, chạm để phóng to'],['1.30','Đọc phiếu chuẩn hơn: bù bóng đổ/ánh sáng từng ô, nhận ô tô bút chì nhạt; 4 ô định vị to gấp đôi; đủ 4 ô giữ ~1 giây là tự chụp ảnh nét và chấm'],['1.29','Quét: 4 ô định vị trong suốt, 4 chấm đen vào đủ 4 ô là tự chụp và chấm; không phủ màu lên bài'],['1.28','Định vị 4 góc khi quét: 4 ô ngắm trên màn hình, ô chuyển xanh khi khớp; nhận diện 4 góc chắc hơn (đối chiếu 22 ô định vị phụ), không nhầm khi nền có giấy tờ khác'],['1.27','Gắn sẵn Google Client ID: bấm Kết nối Google Drive là đồng bộ được'],['1.26','Đồng bộ máy tính ↔ điện thoại qua Google Drive; quét QR đáp án bằng camera, nhận mã QR TNMaker và file Word'],['1.25','Nhập DS học sinh theo mẫu Sở (nhiều sheet/lớp, trùng SBD giữa các lớp); ghi điểm vào đúng cột KTTX/GKI/CKI theo tên kỳ; file mẫu mới'],['1.24','Trang kỳ kiểm tra gọn: chỉ tên kỳ, nút Quét nổi bật, 6 ô nhỏ; bỏ Tạo đề thi'],['1.23','Quản lý kỳ kiểm tra: mỗi kỳ có trang 8 chức năng; lưu file đề; sửa bài làm; chấm lại / đọc lại ảnh phiếu; sửa học sinh'],['1.22','Danh sách học sinh theo lớp (bấm lớp để xem); tạo kỳ thi chọn lớp chấm bằng ô mũi tên'],['1.21','Xoá hàng loạt: mã đề, bài đã chấm, ảnh phiếu, danh sách học sinh, kỳ thi, tài khoản đã cấp'],['1.20','Đáp án Excel theo mẫu bảng dọc: cột Phần, cột Câu\\Mã Đề, mỗi mã đề một cột; file mẫu xuất cùng dạng'],['1.19','Tài khoản: đăng nhập bằng mã kích hoạt có hạn dùng; quản trị viên cấp/gia hạn tài khoản; hết hạn khoá app'],['1.18','Cài được như app: biểu tượng riêng, mở toàn màn hình, dùng khi mất mạng; nút Cài app'],['1.17','Camera: xem trực tiếp, nút chụp – chụp lại – dùng ảnh, báo lỗi quyền/camera bận/không hỗ trợ; slogan một dòng'],['1.16','Đổi tên thành QUMIRAI – AI Exam Scanner, thêm khẩu hiệu'],['1.15','Đổi tên app; ghi số phiên bản, tăng mỗi lần cập nhật'],['1.14','Chấm theo thư mục ảnh/PDF; cập nhật thư mục chỉ chấm file mới'],['1.13','Bấm quét là mở camera ngay; cảnh báo SBD tô sai, trùng, ngoài danh sách'],['1.12','Xuất điểm theo danh sách học sinh; ảnh phiếu khoanh màu có ghi điểm'],['1.11','Mã đề nhập ở bước đáp án; nút Lỗi cộng điểm câu lỗi đề'],['1.10','Nhập danh sách học sinh từ Excel, file mẫu, mã QR'],['1.9','Thông tin tác giả'],['1.8','Nhập đáp án từ Excel, file mẫu, mã QR'],['1.7','Giao diện như mẫu, thao tác cô đọng'],['1.6','Thử với phiếu mẫu; tạo kỳ thi 3 bước'],['1.5','Hướng dẫn sử dụng'],['1.4','Chấm theo 2 mẫu phiếu BGD 2025: 3 phần, điểm từng phần'],['1.3','Giao diện gọn trên điện thoại'],['1.0','Bản đầu tiên']],
  COPY=`© 2026 ${APP_FULL} v${VER} — Phát triển bởi thầy Phan Đình Trung, Trường THPT Chu Văn An, phường Bảo An, tỉnh Khánh Hòa`,COPY_S=`${APP} v${VER} · Phát triển bởi thầy Phan Đình Trung · THPT Chu Văn An`,LET='ABCD',TF=v=>v==='T'?'Đ':v==='F'?'S':v==='*'?'×':'–';
 
 /* ---------- icons ---------- */
